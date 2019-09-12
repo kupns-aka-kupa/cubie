@@ -1,5 +1,6 @@
 # Rendering
-- (in_progress)
++ orto_and_perspective_view_change_by_'o'
+- draw_faces(in_progress)
 
 # Logic
 - (in_progress)
