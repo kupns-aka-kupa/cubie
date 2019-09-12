@@ -1,7 +1,13 @@
 # Rendering
 + orto_and_perspective_view_change_by_'o'
-- draw_faces(in_progress)
++ cube
+- user_gui(in_progress)
 
 # Logic
-- (in_progress)
+- (in_progress:
+    1) CubeLogic,
+    2) TImer,
+    3) Menu,
+    4) Customization
+    )
 

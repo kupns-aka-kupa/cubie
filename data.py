@@ -3,6 +3,15 @@ class Data():
         self.colors = colors()
         self.cube = cube()
         self.grid = grid()
+        self.device = device()
+
+
+class device(Data):
+    def __init__(self):
+        self.width = 800
+        self.height = 800
+        self.center_x = self.width // 2
+        self.center_y = self.height // 2
 
 class colors(Data):
     def __init__(self):
@@ -23,5 +32,3 @@ class grid(Data):
     def __init__(self):
         self.vertex = [[1, 0, 0], [0, -1, 0], [0, 0, 1], [-1, 0, 0], [0, 1, 0], [0, 0, -1]]
         self.labels = ['+y', '-x', '+z', '-y', '+x', '-z' ]
-
-data = Data()
