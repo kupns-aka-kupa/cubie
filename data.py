@@ -31,4 +31,5 @@ class cube(Data):
 class grid(Data):
     def __init__(self):
         self.vertex = [[1, 0, 0], [0, -1, 0], [0, 0, 1], [-1, 0, 0], [0, 1, 0], [0, 0, -1]]
+        self.size = 10
         self.labels = ['+y', '-x', '+z', '-y', '+x', '-z' ]

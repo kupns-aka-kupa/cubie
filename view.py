@@ -16,10 +16,10 @@ class Viewport():
 
 #       UP_CORNERS
 #       start_coord(y,x,z)
-        self.corner_YOB = cube.Cube(self.camera, self.pg, data, tools, vertex, edges, (2, -2, -2))
-        self.corner_YBR = cube.Cube(self.camera, self.pg, data, tools, vertex, edges, (2, -2, 2))
-        self.corner_YRG = cube.Cube(self.camera, self.pg, data, tools, vertex, edges, (-2, -2, 2))
-        self.corner_YGO = cube.Cube(self.camera, self.pg, data, tools, vertex, edges, (-2, -2, -2))
+        self.corner_YOB = cube.Cube(self.camera, self.pg, data, tools, (2, -2, -2))
+        self.corner_YBR = cube.Cube(self.camera, self.pg, data, tools, (2, -2, 2))
+        self.corner_YRG = cube.Cube(self.camera, self.pg, data, tools, (-2, -2, 2))
+        self.corner_YGO = cube.Cube(self.camera, self.pg, data, tools, (-2, -2, -2))
 ##       DOWN_CORNERS
 #        self.corner_WBO = Cube(vertex, edges, (2, 2, -2))
 #        self.corner_WRB = Cube(vertex, edges, (2, 2, 2))
