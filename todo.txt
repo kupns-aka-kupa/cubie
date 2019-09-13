@@ -1,6 +1,7 @@
 # Rendering
 + orto_and_perspective_view_change_by_'o'
 + cube
+- display_order(stagnation)
 - user_gui(in_progress)
 
 # Logic

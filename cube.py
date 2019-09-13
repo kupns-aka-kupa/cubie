@@ -30,16 +30,21 @@ class Cube():
             z += self.z0
             x, z = tools.rotate((x, z), camera.rot[1])
             y, z = tools.rotate((y, z), camera.rot[0])
+
             if camera.orto_view:
+                z += camera.pos[2]
+                verts_list.append((x, y,  z))
                 z = camera.pos[2]
             elif not camera.orto_view:
                 z += camera.pos[2]
-            verts_list.append((x, y, z))
+                verts_list.append((x, y, z))
+
             f = camera.zoom / z
             x, y = x * f, y * f
             screen_coords.append((cx + int(x), cy + int(y)))
 
         face_list = []; point_list = []; depth = []
+
         face_order = self.display_order(faces, face_list, verts_list, screen_coords)
         edge_order = self.display_order(edges, point_list, verts_list, screen_coords)
 

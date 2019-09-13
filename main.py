@@ -2,6 +2,7 @@ import sys, math
 import pygame as pg
 import view
 import camera
+import emoji
 
 pg.init()
 clock = pg.time.Clock()
@@ -14,7 +15,7 @@ screen = pg.display.set_mode((w, h))
 camera = camera.Camera(pg)
 viewport = view.Viewport(camera, pg)
 
-pg.event.get()
+pg.event.get()o
 pg.mouse.get_rel()
 pg.mouse.set_visible(0)
 pg.event.set_grab(1)
