@@ -15,7 +15,7 @@ screen = pg.display.set_mode((w, h))
 camera = camera.Camera(pg)
 viewport = view.Viewport(camera, pg)
 
-pg.event.get()o
+pg.event.get()
 pg.mouse.get_rel()
 pg.mouse.set_visible(0)
 pg.event.set_grab(1)
