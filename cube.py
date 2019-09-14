@@ -1,5 +1,3 @@
-import math
-
 class Cube():
 
     def __init__(self, camera, pygame, data, tools, pos, rot = (1, 1)):
@@ -33,7 +31,7 @@ class Cube():
 
             if camera.orto_view:
                 z += camera.pos[2]
-                verts_list.append((x, y,  z))
+                verts_list.append((x, y, z))
                 z = camera.pos[2]
             elif not camera.orto_view:
                 z += camera.pos[2]
@@ -46,11 +44,11 @@ class Cube():
         face_list = []; point_list = []; depth = []
 
         face_order = self.display_order(faces, face_list, verts_list, screen_coords)
-        edge_order = self.display_order(edges, point_list, verts_list, screen_coords)
-
         for i in face_order:
             try: self.pg.draw.polygon(screen, color[i], face_list[i])
             except : self.pg.draw.polygon(screen, color[-1], face_list[i])
+
+        edge_order = self.display_order(edges, point_list, verts_list, screen_coords)
         for i in edge_order:
             self.pg.draw.line(screen, colors.black, point_list[i][0], point_list[i][1], self.width)
 
@@ -67,5 +65,6 @@ class Cube():
                     break
             if  on_screen:
                 elements_list.append([screen_coords[i] for i in element])
-                depth.append(sum(sum(verts_list[j][i] for j in element) ** 2 for i in range(3)))
+                depth.append(sum(sum(verts_list[j][k] for j in element) ** 2 for k in range(len(element) - 1)))
+
         return sorted(range(len(elements_list)), key = lambda i : depth[i], reverse = 1)

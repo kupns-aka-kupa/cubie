@@ -1,6 +1,8 @@
 import math
 
 class Tools():
+    def __init__(self):
+        self.math = math
 
     def rotate(self, pos, rad):
         x, y = pos
