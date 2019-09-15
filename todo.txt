@@ -1,10 +1,10 @@
 # Rendering
 + orto_and_perspective_view_change_by_'o'
 - display_order(stagnation)
-- user_gui(in_progress)
+- user_gui
 
 # Logic
-- cube Logic
+- cube Logic(in_progress)
 - n-cube generation
 - key mapping
 - timer

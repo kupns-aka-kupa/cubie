@@ -7,6 +7,12 @@ class Camera():
         self.rot = list(rot)
         self.orto_view = False
         self.zoom = zoom
+        self.U_rot = 0
+        self.D_rot = 0
+        self.R_rot = 0
+        self.L_rot = 0
+        self.B_rot = 0
+        self.F_rot = 0
 
     def events(self, event):
         math = self.data.math
@@ -16,7 +22,13 @@ class Camera():
             if event.key == key_map.key['o']:
                 self.orto_view = not self.orto_view
             if event.key == key_map.key['q']:
-                pass
+                self.U_rot -= math.pi / 2
+                if self.U_rot < -2 * math.pi:
+                     self.U_rot = 0
+            if event.key == key_map.key['e']:
+                self.U_rot += math.pi / 2
+                if self.U_rot > 2 * math.pi:
+                     self.U_rot = 0
 
         if event.type == self.pg.MOUSEMOTION:
             x, y = event.rel

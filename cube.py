@@ -1,16 +1,17 @@
 
 class Cube():
 
-    def __init__(self, camera, pygame, data, tools, pos, rot = (0, 0)):
+    def __init__(self, camera, pygame, data, own_colors, tools, pos, rot = (0, 0)):
         self.camera = camera
         self.pg = pygame
         self.data = data
+        self.own_colors = own_colors
         self.tools = tools
         self.x0, self.y0, self.z0 = pos
         self.rot = rot
         self.width = 2
 
-    def render(self, color):
+    def redesignation(self):
         math = self.data.math
         tools = self.tools
         screen = self.pg.display.get_surface()
@@ -21,7 +22,11 @@ class Cube():
         vertex = self.data.cube.vertex
         faces = self.data.cube.faces
         edges = self.data.cube.edges
+        return math, tools, screen, camera, colors, cx, cy, w, h, vertex, faces, edges
 
+    def  calculate_coords(self):
+
+        math, tools, screen, camera, colors, cx, cy, w, h, vertex, faces, edges = self.redesignation()
         verts_list = []; screen_coords = []
 
         for x, y, z in vertex:
@@ -45,18 +50,25 @@ class Cube():
             x, y = x * f, y * f
             screen_coords.append((cx + int(x), cy + int(y)))
 
+        return  verts_list, screen_coords
+
+    def render(self):
+
+        math, tools, screen, camera, colors, cx, cy, w, h, vertex, faces, edges = self.redesignation()
+        verts_list, screen_coords = self.calculate_coords()
         face_list = []; point_list = []; depth = []
 
-        face_order = self.display_order(faces, face_list, verts_list, screen_coords)
+        face_order = self.render_order(faces, face_list, verts_list, screen_coords)
         for i in face_order:
-            try: self.pg.draw.polygon(screen, color[i], face_list[i])
-            except : self.pg.draw.polygon(screen, color[-1], face_list[i])
+            try: self.pg.draw.polygon(screen, self.own_colors[i], face_list[i])
+            except : self.pg.draw.polygon(screen, self.own_colors[-1], face_list[i])
 
-        edge_order = self.display_order(edges, point_list, verts_list, screen_coords)
+        edge_order = self.render_order(edges, point_list, verts_list, screen_coords)
         for i in edge_order:
             self.pg.draw.line(screen, colors.black, point_list[i][0], point_list[i][1], self.width)
 
-    def display_order(self, elements, elements_list, verts_list, screen_coords):
+    def render_order(self, elements, elements_list, verts_list, screen_coords):
+
         w, h = self.data.device.width, self.data.device.height
         depth = []
         for i in range(len(elements)):

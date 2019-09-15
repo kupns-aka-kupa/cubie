@@ -24,6 +24,8 @@ pg.event.set_grab(1)
 pg.display.set_caption('RubiCubie')
 
 viewport.cube_init()
+viewport.queue_init()
+
 while 1:
     for event in pg.event.get():
         if event.type == pg.QUIT: sys.exit()
