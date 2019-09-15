@@ -1,10 +1,31 @@
+import math
 class Data():
     def __init__(self):
+        self.math = math
         self.colors = colors()
         self.cube = cube()
         self.grid = grid()
         self.device = device()
+        self.key_map = keys()
 
+class keys(Data):
+    def __init__(self):
+        self.key = {
+        'o' : 111,
+        'q' : 113,
+        'w' : 119,
+        'e' : 101,
+        'a' : 97,
+        's' : 115,
+        'd' : 100,
+        'z' : 122,
+        'x' : 120,
+        'c' : 99,
+        '1' : 49,
+        '2' : 50,
+        '3' : 51,
+        '4' : 52,
+        }
 
 class device(Data):
     def __init__(self):

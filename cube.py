@@ -1,6 +1,7 @@
+
 class Cube():
 
-    def __init__(self, camera, pygame, data, tools, pos, rot = (1, 1)):
+    def __init__(self, camera, pygame, data, tools, pos, rot = (0, 0)):
         self.camera = camera
         self.pg = pygame
         self.data = data
@@ -10,6 +11,7 @@ class Cube():
         self.width = 2
 
     def render(self, color):
+        math = self.data.math
         tools = self.tools
         screen = self.pg.display.get_surface()
         camera = self.camera
@@ -26,6 +28,8 @@ class Cube():
             x += camera.pos[0] + self.x0
             y += camera.pos[1] + self.y0
             z += self.z0
+            x, z = tools.rotate((x, z), self.rot[0])
+            y, z = tools.rotate((y, z), self.rot[1])
             x, z = tools.rotate((x, z), camera.rot[1])
             y, z = tools.rotate((y, z), camera.rot[0])
 

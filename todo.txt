@@ -1,14 +1,13 @@
 # Rendering
 + orto_and_perspective_view_change_by_'o'
-+ cube
 - display_order(stagnation)
 - user_gui(in_progress)
 
 # Logic
-- (in_progress:
-    1) CubeLogic,
-    2) TImer,
-    3) Menu,
-    4) Customization
-    )
-
+- cube Logic
+- n-cube generation
+- key mapping
+- timer
+- menu
+- n-cubes
+- customization
