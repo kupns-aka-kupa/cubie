@@ -1,7 +1,7 @@
 
 class Cube():
 
-    def __init__(self, camera, pygame, data, own_colors, tools, pos, rot = (0, 0)):
+    def __init__(self, camera, pygame, data, own_colors, tools, pos, rot = [0, 0, 0]):
         self.camera = camera
         self.pg = pygame
         self.data = data
@@ -9,6 +9,7 @@ class Cube():
         self.tools = tools
         self.x0, self.y0, self.z0 = pos
         self.rot = rot
+        self.depth = 0
         self.width = 2
 
     def redesignation(self):
@@ -25,16 +26,16 @@ class Cube():
         return math, tools, screen, camera, colors, cx, cy, w, h, vertex, faces, edges
 
     def  calculate_coords(self):
-
         math, tools, screen, camera, colors, cx, cy, w, h, vertex, faces, edges = self.redesignation()
         verts_list = []; screen_coords = []
 
         for x, y, z in vertex:
+            x, z = tools.rotate((x, z), self.rot[0])
+            y, z = tools.rotate((y, z), self.rot[1])
+            x, y = tools.rotate((x, y), self.rot[2])
             x += camera.pos[0] + self.x0
             y += camera.pos[1] + self.y0
             z += self.z0
-            x, z = tools.rotate((x, z), self.rot[0])
-            y, z = tools.rotate((y, z), self.rot[1])
             x, z = tools.rotate((x, z), camera.rot[1])
             y, z = tools.rotate((y, z), camera.rot[0])
 
@@ -58,12 +59,13 @@ class Cube():
         verts_list, screen_coords = self.calculate_coords()
         face_list = []; point_list = []; depth = []
 
-        face_order = self.render_order(faces, face_list, verts_list, screen_coords)
+        edge_order, self.depth = self.render_order(edges, point_list, verts_list, screen_coords)
+        face_order, self.depth = self.render_order(faces, face_list, verts_list, screen_coords)
+
         for i in face_order:
             try: self.pg.draw.polygon(screen, self.own_colors[i], face_list[i])
             except : self.pg.draw.polygon(screen, self.own_colors[-1], face_list[i])
 
-        edge_order = self.render_order(edges, point_list, verts_list, screen_coords)
         for i in edge_order:
             self.pg.draw.line(screen, colors.black, point_list[i][0], point_list[i][1], self.width)
 
@@ -82,5 +84,4 @@ class Cube():
             if  on_screen:
                 elements_list.append([screen_coords[i] for i in element])
                 depth.append(sum(sum(verts_list[j][k] for j in element) ** 2 for k in range(len(element) - 1)))
-
-        return sorted(range(len(elements_list)), key = lambda i : depth[i], reverse = 1)
+        return sorted(range(len(elements_list)), key = lambda i : depth[i], reverse = 1), sum(i for i in depth) / len(depth)
