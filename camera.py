@@ -5,7 +5,10 @@ class Camera():
         self.data = data
         self.pos = list(pos)
         self.rot = list(rot)
+        #keys func
         self.orto_view = False
+        self.shift = False
+        self.ctrl = False
         self.zoom = zoom
         self.U_rot = 0
         self.D_rot = 0
@@ -15,20 +18,84 @@ class Camera():
         self.F_rot = 0
 
     def events(self, event):
+        keys = self.pg.key.get_pressed()
         math = self.data.math
         key_map = self.data.key_map
         if event.type == self.pg.KEYDOWN:
-#            print(event.key)
             if event.key == key_map.key['o']:
                 self.orto_view = not self.orto_view
-            if event.key == key_map.key['q']:
-                self.U_rot -= math.pi / 2
-                if self.U_rot < -2 * math.pi:
-                     self.U_rot = 0
-            if event.key == key_map.key['e']:
-                self.U_rot += math.pi / 2
-                if self.U_rot > 2 * math.pi:
-                     self.U_rot = 0
+
+            if event.key == key_map.key['up']:
+                if self.shift:
+                    self.U_rot -= math.pi / 2
+                else:
+                    self.U_rot += math.pi / 2
+
+                if self.U_rot <= -2 * math.pi:
+                    self.U_rot = 0
+                elif self.U_rot >= 2 * math.pi:
+                    self.U_rot = 0
+                return True
+
+            if event.key == key_map.key['down']:
+                if self.shift:
+                    self.D_rot -= math.pi / 2
+                else:
+                    self.D_rot += math.pi / 2
+
+                if self.D_rot <= -2 * math.pi:
+                    self.D_rot = 0
+                elif self.D_rot >= 2 * math.pi:
+                    self.D_rot = 0
+                return True
+
+            if event.key == key_map.key['lelf']:
+                if self.shift:
+                    self.L_rot -= math.pi / 2
+                else:
+                    self.L_rot += math.pi / 2
+
+                if self.L_rot <= -2 * math.pi:
+                    self.L_rot = 0
+                elif self.L_rot >= 2 * math.pi:
+                    self.L_rot = 0
+                return True
+
+            if event.key == key_map.key['right']:
+                if self.shift:
+                    self.R_rot -= math.pi / 2
+                else:
+                    self.R_rot += math.pi / 2
+
+                if self.R_rot <= -2 * math.pi:
+                    self.R_rot = 0
+                elif self.R_rot >= 2 * math.pi:
+                    self.R_rot = 0
+                return True
+
+            if event.key == key_map.key['front']:
+                if self.shift:
+                    self.F_rot -= math.pi / 2
+                else:
+                    self.F_rot += math.pi / 2
+
+                if self.F_rot <= -2 * math.pi:
+                    self.F_rot = 0
+                elif self.F_rot >= 2 * math.pi:
+                    self.F_rot = 0
+                return True
+
+            if event.key == key_map.key['back']:
+                if self.shift:
+                    self.B_rot -= math.pi / 2
+                else:
+                    self.B_rot += math.pi / 2
+
+                if self.B_rot <= -2 * math.pi:
+                    self.B_rot = 0
+                elif self.B_rot >= 2 * math.pi:
+                    self.B_rot = 0
+                return True
 
         if event.type == self.pg.MOUSEMOTION:
             x, y = event.rel

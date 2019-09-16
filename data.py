@@ -12,20 +12,20 @@ class Data():
 class keys(Data):
     def __init__(self):
         self.key = {
-        'o' : 111,
-        'q' : 113,
-        'w' : 119,
-        'e' : 101,
-        'a' : 97,
-        's' : 115,
-        'd' : 100,
-        'z' : 122,
-        'x' : 120,
-        'c' : 99,
-        '1' : 49,
-        '2' : 50,
-        '3' : 51,
-        '4' : 52,
+        'up' : 119,#w
+        'down' : 115,#s
+        'lelf' : 97,#a
+        'right' : 100,#d
+        'front' : 101,#e
+        'back' : 113,#q
+        'o' : 111,#o
+        'z' : 122,#z
+        'x' : 120,#x
+        'c' : 99,#c
+        'layer_1' : 49,#1
+        'layer_2' : 50,#2
+        'layer_3' : 51,#3
+        'layer_4' : 52,#4
         }
 
 class device(Data):
@@ -34,6 +34,7 @@ class device(Data):
         self.height = 800
         self.center_x = self.width // 2
         self.center_y = self.height // 2
+        self.fps = 60
 
 class cube(Data):
     def __init__(self):
@@ -58,8 +59,8 @@ class cube(Data):
             'YO_edges' : [self.palette.orange, self.palette.black, self.palette.yellow, self.palette.black],
 
             'WB_edges' : [self.palette.black, self.palette.blue, self.palette.black, self.palette.black, self.palette.black, self.palette.white],
-            'WG_edges' : [self.palette.black, self.palette.black, self.palette.black, self.palette.red, self.palette.black, self.palette.white],
-            'WR_edges' : [self.palette.black, self.palette.black, self.palette.black, self.palette.black, self.palette.green, self.palette.white],
+            'WR_edges' : [self.palette.black, self.palette.black, self.palette.black, self.palette.red, self.palette.black, self.palette.white],
+            'WG_edges' : [self.palette.black, self.palette.black, self.palette.black, self.palette.black, self.palette.green, self.palette.white],
             'WO_edges' : [self.palette.orange, self.palette.black, self.palette.black, self.palette.black, self.palette.black, self.palette.white],
 
             'OB_edges' : [self.palette.orange, self.palette.blue, self.palette.black],

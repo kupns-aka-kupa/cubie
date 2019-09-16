@@ -1,6 +1,7 @@
 import math
 
 class Tools():
+
     def __init__(self):
         self.math = math
 

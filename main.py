@@ -1,4 +1,3 @@
-import math
 import pygame as pg
 import data
 import view
@@ -16,7 +15,6 @@ screen = pg.display.set_mode((w, h))
 
 camera = camera.Camera(pg, data)
 viewport = view.Viewport(camera, pg, data)
-
 pg.event.get()
 pg.mouse.get_rel()
 pg.mouse.set_visible(0)
@@ -26,10 +24,17 @@ pg.display.set_caption('RubiCubie')
 viewport.cube_init()
 viewport.queue_init()
 
-while 1:
+while True:
+
     for event in pg.event.get():
-        if event.type == pg.QUIT: sys.exit()
-        camera.events(event)
+        if event.type == pg.QUIT: pg.quit(); sys.exit()
+        keys = pg.key.get_pressed()
+        camera.shift = keys[camera.pg.K_LSHIFT]
+        camera.ctrl = keys[camera.pg.K_LCTRL]
+        move = camera.events(event)
+        if move:
+            viewport.logic()
     screen.fill(colors.white)
     viewport.update()
     pg.display.flip()
+    clock.tick(device.fps)
