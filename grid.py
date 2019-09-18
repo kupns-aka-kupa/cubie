@@ -4,22 +4,19 @@ class Grid():
 
         self.camera = camera
         self.pg = pygame
-        self.data = data
+        self.data, self.device = data
         self.tools = tools
-        self.data_device = self.data.device
         self.pos = list(pos)
-        self.size = 10
-        self.axis = data.grid.vertex
-        self.labels = data.grid.labels
+        self.size = self.data.size
+        self.axis = self.data.vertex
+        self.labels = self.data.labels
         self.font = self.pg.font.SysFont('Comic Sans MS', 15)
-        self.screen = self.pg.display.get_surface()
 
     def render(self):
-
+        screen = self.pg.display.get_surface()
         colors = self.data.colors
         camera = self.camera
-        tools = self.tools
-        cx, cy = self.data.device.center_x, self.data.device.center_y
+        cx, cy = self.device.center_x, self.device.center_y
 
         for i in range(len(self.axis)):
             for j in range(1, self.size):
@@ -28,8 +25,8 @@ class Grid():
                 z = self.axis[i][2] + self.pos[2]
                 x *= j; y *= j; z *= j
                 index = x + y + z
-                x, z = tools.rotate((x, z), camera.rot[1])
-                y, z = tools.rotate((y, z), camera.rot[0])
+                x, z = self.tools.rotate((x, z), camera.rot[1])
+                y, z = self.tools.rotate((y, z), camera.rot[0])
                 if camera.orto_view:
                     z = camera.pos[2]
                 elif not camera.orto_view:
@@ -37,8 +34,8 @@ class Grid():
                 f = camera.zoom / z
                 x, y = x * f, y * f
 #               char grid and dots
-                self.screen.blit(self.font.render(str(index), False, colors.black), (cx + x, cy + y))
-                self.pg.draw.circle(self.screen, colors.black, (cx + int(x), cy + int(y)), 2)
-#       labels and axels
-            self.screen.blit(self.font.render(self.labels[i], False, colors.black), (cx + x, cy + y))
-            self.pg.draw.line(self.screen, colors.black, [cx , cy ], (cx + x, cy + y), 1)
+                screen.blit(self.font.render(str(index), False, colors.black), (cx + x, cy + y))
+                self.pg.draw.circle(screen, colors.black, (cx + int(x), cy + int(y)), 2)
+#           labels and axels
+            screen.blit(self.font.render(self.labels[i], False, colors.black), (cx + 1.1 * x, cy + 1.1 * y))
+            self.pg.draw.line(screen, colors.black, [cx , cy ], (cx + x, cy + y), 1)

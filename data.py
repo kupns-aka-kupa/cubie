@@ -1,8 +1,5 @@
-import math
-
 class Data():
     def __init__(self):
-        self.math = math
         self.colors = palette()
         self.cube = cube()
         self.grid = grid()
@@ -14,7 +11,7 @@ class keys(Data):
         self.key = {
         'up' : 119,#w
         'down' : 115,#s
-        'lelf' : 97,#a
+        'left' : 97,#a
         'right' : 100,#d
         'front' : 101,#e
         'back' : 113,#q
@@ -39,6 +36,7 @@ class device(Data):
 class cube(Data):
     def __init__(self):
         self.palette = palette()
+        self.line_width = 2
         self.vertex = (-1, -1, -1), (1, -1, -1), (1, 1, -1), (-1, 1, -1), (-1, -1, 1), (1, -1, 1), (1, 1, 1), (-1, 1, 1)
         self.edges = (0, 1), (1, 2), (2, 3), (3, 0), (4, 5), (5, 6), (6, 7), (7, 4) ,(0, 4), (1, 5), (2, 6), (3, 7)
         self.faces = (0, 1, 2, 3), (1, 2, 6, 5), (0, 1, 5, 4), (4, 5, 6, 7), (0, 3, 7, 4), (2, 3, 7, 6)
@@ -88,6 +86,7 @@ class palette(Data):
 
 class grid(Data):
     def __init__(self):
+        self.colors = palette()
         self.vertex = [[1, 0, 0], [0, -1, 0], [0, 0, 1], [-1, 0, 0], [0, 1, 0], [0, 0, -1]]
         self.size = 10
         self.labels = ['+y', '-x', '+z', '-y', '+x', '-z' ]

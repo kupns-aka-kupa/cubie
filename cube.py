@@ -4,40 +4,38 @@ class Cube():
     def __init__(self, camera, pygame, data, own_colors, tools, pos, rot = [0, 0, 0]):
         self.camera = camera
         self.pg = pygame
-        self.data = data
+        self.data, self.device = data
         self.own_colors = own_colors
         self.tools = tools
         self.x0, self.y0, self.z0 = pos
         self.rot = rot
         self.depth = 0
-        self.width = 2
+        self.line_width = self.data.line_width
 
     def redesignation(self):
-        math = self.data.math
-        tools = self.tools
         screen = self.pg.display.get_surface()
         camera = self.camera
-        colors = self.data.colors
-        cx, cy = self.data.device.center_x, self.data.device.center_y
-        w, h = self.data.device.width, self.data.device.height
-        vertex = self.data.cube.vertex
-        faces = self.data.cube.faces
-        edges = self.data.cube.edges
-        return math, tools, screen, camera, colors, cx, cy, w, h, vertex, faces, edges
+        colors = self.data.palette
+        cx, cy = self.device.center_x, self.device.center_y
+        w, h = self.device.width, self.device.height
+        vertex = self.data.vertex
+        faces = self.data.faces
+        edges = self.data.edges
+        return screen, camera, colors, cx, cy, w, h, vertex, faces, edges
 
     def  calculate_coords(self):
-        math, tools, screen, camera, colors, cx, cy, w, h, vertex, faces, edges = self.redesignation()
+        screen, camera, colors, cx, cy, w, h, vertex, faces, edges = self.redesignation()
         verts_list = []; screen_coords = []
 
         for x, y, z in vertex:
-            x, z = tools.rotate((x, z), self.rot[0])
-            y, z = tools.rotate((y, z), self.rot[1])
-            x, y = tools.rotate((x, y), self.rot[2])
+            x, z = self.tools.rotate((x, z), self.rot[0])
+            y, z = self.tools.rotate((y, z), self.rot[1])
+            x, y = self.tools.rotate((x, y), self.rot[2])
             x += camera.pos[0] + self.x0
             y += camera.pos[1] + self.y0
             z += self.z0
-            x, z = tools.rotate((x, z), camera.rot[1])
-            y, z = tools.rotate((y, z), camera.rot[0])
+            x, z = self.tools.rotate((x, z), camera.rot[1])
+            y, z = self.tools.rotate((y, z), camera.rot[0])
 
             if camera.orto_view:
                 z += camera.pos[2]
@@ -55,7 +53,7 @@ class Cube():
 
     def render(self):
 
-        math, tools, screen, camera, colors, cx, cy, w, h, vertex, faces, edges = self.redesignation()
+        screen, camera, colors, cx, cy, w, h, vertex, faces, edges = self.redesignation()
         verts_list, screen_coords = self.calculate_coords()
         face_list = []; point_list = []; depth = []
 
@@ -67,11 +65,11 @@ class Cube():
             except : self.pg.draw.polygon(screen, self.own_colors[-1], face_list[i])
 
         for i in edge_order:
-            self.pg.draw.line(screen, colors.black, point_list[i][0], point_list[i][1], self.width)
+            self.pg.draw.line(screen, colors.black, point_list[i][0], point_list[i][1], self.line_width)
 
     def render_order(self, elements, elements_list, verts_list, screen_coords):
 
-        w, h = self.data.device.width, self.data.device.height
+        w, h = self.device.width, self.device.height
         depth = []
         for i in range(len(elements)):
             element = elements[i]
