@@ -89,4 +89,4 @@ class grid(Data):
         self.colors = palette()
         self.vertex = [[1, 0, 0], [0, -1, 0], [0, 0, 1], [-1, 0, 0], [0, 1, 0], [0, 0, -1]]
         self.size = 10
-        self.labels = ['+y', '-x', '+z', '-y', '+x', '-z' ]
+        self.labels = ['+x', '-y', '+z', '-x', '+y', '-z' ]

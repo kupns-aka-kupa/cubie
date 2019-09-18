@@ -1,14 +1,16 @@
 
 class Cube():
 
-    def __init__(self, camera, pygame, data, own_colors, tools, pos, rot = [0, 0, 0]):
+    def __init__(self, camera, pygame, data, own_colors, tools, pos):
         self.camera = camera
         self.pg = pygame
         self.data, self.device = data
         self.own_colors = own_colors
         self.tools = tools
         self.x0, self.y0, self.z0 = pos
-        self.rot = rot
+        self.rotx = 0
+        self.roty = 0
+        self.rotz = 0
         self.depth = 0
         self.line_width = self.data.line_width
 
@@ -24,13 +26,28 @@ class Cube():
         return screen, camera, colors, cx, cy, w, h, vertex, faces, edges
 
     def  calculate_coords(self):
+        if self.rotx >= 2 * self.tools.math.pi:
+            self.rotx = 0
+        elif  self.rotx <= -2 * self.tools.math.pi:
+            self.rotx = 0
+
+        if self.roty >= 2 * self.tools.math.pi:
+            self.roty = 0
+        elif  self.roty <= -2 * self.tools.math.pi:
+            self.roty = 0
+
+        if self.rotz >= 2 * self.tools.math.pi:
+            self.rotz = 0
+        elif  self.rotz <= -2 * self.tools.math.pi:
+            self.rotz = 0
+
         screen, camera, colors, cx, cy, w, h, vertex, faces, edges = self.redesignation()
         verts_list = []; screen_coords = []
 
         for x, y, z in vertex:
-            x, z = self.tools.rotate((x, z), self.rot[0])
-            y, z = self.tools.rotate((y, z), self.rot[1])
-            x, y = self.tools.rotate((x, y), self.rot[2])
+            x, z = self.tools.rotate((x, z), self.rotx)
+            y, z = self.tools.rotate((y, z), self.roty)
+            x, y = self.tools.rotate((x, y), self.rotz)
             x += camera.pos[0] + self.x0
             y += camera.pos[1] + self.y0
             z += self.z0
