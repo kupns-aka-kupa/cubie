@@ -72,8 +72,8 @@ class Events():
                 else:
                     B_angle += math.pi / 2
 
-        angles = (U_angle, D_angle, R_angle, L_angle, F_angle, B_angle)
-        self.viewport.rubiks_cube.logic(angles)
+            angles = (U_angle, D_angle, R_angle, L_angle, F_angle, B_angle)
+            self.viewport.rubiks_cube.logic(angles)
 
     def mouse_events(self, event):
         math = self.viewport.tools.math

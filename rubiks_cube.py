@@ -9,12 +9,6 @@ class RubiksCube():
         self.tools = tools
         self.depth = 0
         self.queue = []
-        self.U_rot = 0
-        self.D_rot = 0
-        self.R_rot = 0
-        self.L_rot = 0
-        self.B_rot = 0
-        self.F_rot = 0
         self.cube_generator()
 
 
@@ -63,53 +57,50 @@ class RubiksCube():
         if rot[0] != 0:
             for cube in self.queue:
                 if cube.y0 == -2:#UP
-                    cube.rotx -= rot[0]
                     cube.x0, cube.z0 = self.tools.rotate((cube.x0, cube.z0), -rot[0])
+                    cube.rotx -= rot[0]
                     cube.x0 = round(cube.x0)
                     cube.z0 = round(cube.z0)
-
 
         if rot[1] != 0:
             for cube in self.queue:
                 if cube.y0 == 2 :#DOWN
-                    cube.rotx += rot[1]
                     cube.x0, cube.z0 = self.tools.rotate((cube.x0, cube.z0), rot[1])
+                    cube.rotx -= rot[1]
                     cube.x0 = round(cube.x0)
                     cube.z0 = round(cube.z0)
 #
         if rot[2] != 0:
             for cube in self.queue:
                 if cube.x0 == 2:#RIGHT
-                    cube.roty -= rot[2]
                     cube.y0, cube.z0 = self.tools.rotate((cube.y0, cube.z0), -rot[2])
+                    cube.roty -= rot[2]
                     cube.y0 = round(cube.y0)
                     cube.z0 = round(cube.z0)
 #
         if rot[3] != 0:
             for cube in self.queue:
                 if cube.x0 == -2:#LEFT
-                    cube.roty += rot[3]
                     cube.y0, cube.z0 = self.tools.rotate((cube.y0, cube.z0), rot[3])
+                    cube.roty += rot[3]
                     cube.y0 = round(cube.y0)
                     cube.z0 = round(cube.z0)
 #
         if rot[4] != 0:
             for cube in self.queue:
                 if cube.z0 == -2:#FRONT
-                    cube.rotz += rot[4]
                     cube.x0, cube.y0 = self.tools.rotate((cube.x0, cube.y0), rot[4])
+                    cube.rotz += rot[4]
                     cube.x0 = round(cube.x0)
                     cube.y0 = round(cube.y0)
 
         if rot[5] != 0:
             for cube in self.queue:
                 if cube.z0 == 2 :#BACK
-                    cube.rotz -= rot[5]
                     cube.x0, cube.y0 = self.tools.rotate((cube.x0, cube.y0), -rot[5])
+                    cube.rotz -= rot[5]
                     cube.x0 = round(cube.x0)
                     cube.y0 = round(cube.y0)
-
-
 
     def queue_init(self):
         for corners in self.corners:
