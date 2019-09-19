@@ -80,11 +80,17 @@ class Cube():
         face_order, self.depth = self.render_order(faces, face_list, verts_list, screen_coords)
 
         for i in face_order:
-            try: self.pg.draw.polygon(screen, self.own_colors[i], face_list[i])
-            except : self.pg.draw.polygon(screen, self.own_colors[-1], face_list[i])
+            try:
+                self.pg.draw.polygon(screen, self.own_colors[i], face_list[i])
+                self.pg.draw.line(screen, colors.black, face_list[i][0],  face_list[i][1], self.data.line_width)
+                self.pg.draw.line(screen, colors.black,  face_list[i][2],  face_list[i][3], self.data.line_width)
+                self.pg.draw.line(screen, colors.black,  face_list[i][0],  face_list[i][3], self.data.line_width)
+                self.pg.draw.line(screen, colors.black,  face_list[i][1],  face_list[i][2], self.data.line_width)
+            except :
+                self.pg.draw.polygon(screen, self.own_colors[-1], face_list[i])
 
-        for i in edge_order:
-            self.pg.draw.line(screen, colors.black, point_list[i][0], point_list[i][1], self.data.line_width)
+#        for i in edge_order:
+#            self.pg.draw.line(screen, colors.black, point_list[edge_order[i]][0], point_list[edge_order[i]][1], self.data.line_width)
 
     def render_order(self, elements, elements_list, verts_list, screen_coords):
 

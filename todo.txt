@@ -1,11 +1,13 @@
 # Rendering
-+ orto_and_perspective_view
-+ correct 3d rendering
-- user_gui(in_progress)
++ orto and perspective view
++ 3d rendering
+- display settings
+- 2d user gui
 
 # Logic
-- cube Logic(in_progress)
-- n-cube generation
++ default keys in README.md
++ cube Logic
+- n-cube generation(in progress)
 - key mapping
 - timer
 - menu

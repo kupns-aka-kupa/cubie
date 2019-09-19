@@ -62,7 +62,7 @@ class RubiksCube():
                 cube.rotation((angles[1], 0, 0))
 
             if cube.x0 == 2:#RIGHT
-                cube.rotation((0, angles[2], 0))
+                cube.rotation((0, -angles[2], 0))
 
             if cube.x0 == -2:#LEFT
                 cube.rotation((0, angles[3], 0))
