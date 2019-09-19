@@ -8,11 +8,9 @@ class Cube():
         self.own_colors = own_colors
         self.tools = tools
         self.x0, self.y0, self.z0 = pos
-        self.rotx = 0
-        self.roty = 0
-        self.rotz = 0
+        self.vertex = self.data.vertex.copy()
+        self.rotx = 0; self.roty = 0; self.rotz = 0
         self.depth = 0
-        self.line_width = self.data.line_width
 
     def redesignation(self):
         screen = self.pg.display.get_surface()
@@ -20,34 +18,39 @@ class Cube():
         colors = self.data.palette
         cx, cy = self.device.center_x, self.device.center_y
         w, h = self.device.width, self.device.height
-        vertex = self.data.vertex
         faces = self.data.faces
         edges = self.data.edges
-        return screen, camera, colors, cx, cy, w, h, vertex, faces, edges
+        return screen, camera, colors, cx, cy, w, h, faces, edges
 
-    def  calculate_coords(self):
-        if self.rotx >= 2 * self.tools.math.pi:
-            self.rotx = 0
-        elif  self.rotx <= -2 * self.tools.math.pi:
-            self.rotx = 0
+    def rotation(self, angles):
 
-        if self.roty >= 2 * self.tools.math.pi:
-            self.roty = 0
-        elif  self.roty <= -2 * self.tools.math.pi:
-            self.roty = 0
+        self.rotx, self.roty, self.rotz = angles
+        self.x0, self.z0 = self.tools.rotate((self.x0, self.z0), self.rotx)
+        self.y0, self.z0 = self.tools.rotate((self.y0, self.z0), self.roty)
+        self.x0, self.y0 = self.tools.rotate((self.x0, self.y0), self.rotz)
 
-        if self.rotz >= 2 * self.tools.math.pi:
-            self.rotz = 0
-        elif  self.rotz <= -2 * self.tools.math.pi:
-            self.rotz = 0
+        self.x0 = round(self.x0)
+        self.y0 = round(self.y0)
+        self.z0 = round(self.z0)
 
-        screen, camera, colors, cx, cy, w, h, vertex, faces, edges = self.redesignation()
-        verts_list = []; screen_coords = []
-
-        for x, y, z in vertex:
+        for i in range(len(self.vertex)):
+            x, y, z = self.vertex[i]
             x, z = self.tools.rotate((x, z), self.rotx)
             y, z = self.tools.rotate((y, z), self.roty)
             x, y = self.tools.rotate((x, y), self.rotz)
+
+            self.vertex[i] = [round(x), round(y), round(z)]
+
+        self.rotx = 0; self.roty = 0; self.rotz = 0
+
+    def  calculate_coords(self):
+
+        screen, camera, colors, cx, cy, w, h, faces, edges = self.redesignation()
+        verts_list = []; screen_coords = []
+
+        for i in range(len(self.vertex)):
+            x, y, z = self.vertex[i]
+
             x += camera.pos[0] + self.x0
             y += camera.pos[1] + self.y0
             z += self.z0
@@ -65,12 +68,11 @@ class Cube():
             f = camera.zoom / z
             x, y = x * f, y * f
             screen_coords.append((cx + int(x), cy + int(y)))
-
         return  verts_list, screen_coords
 
     def render(self):
 
-        screen, camera, colors, cx, cy, w, h, vertex, faces, edges = self.redesignation()
+        screen, camera, colors, cx, cy, w, h, faces, edges = self.redesignation()
         verts_list, screen_coords = self.calculate_coords()
         face_list = []; point_list = []; depth = []
 
@@ -82,7 +84,7 @@ class Cube():
             except : self.pg.draw.polygon(screen, self.own_colors[-1], face_list[i])
 
         for i in edge_order:
-            self.pg.draw.line(screen, colors.black, point_list[i][0], point_list[i][1], self.line_width)
+            self.pg.draw.line(screen, colors.black, point_list[i][0], point_list[i][1], self.data.line_width)
 
     def render_order(self, elements, elements_list, verts_list, screen_coords):
 

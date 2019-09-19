@@ -12,7 +12,7 @@ class Events():
 
     def update(self):
         for event in self.pg.event.get():
-            if event.type == self.pg.QUIT: self.pg.quit(); sys.quit()
+            if event.type == self.pg.QUIT: self.pg.quit(); sys.exit()
             keys = self.pg.key.get_pressed()
             mouse_btns = self.pg.mouse.get_pressed()
             self.shift = keys[self.pg.K_LSHIFT]
@@ -74,6 +74,7 @@ class Events():
 
             angles = (U_angle, D_angle, R_angle, L_angle, F_angle, B_angle)
             self.viewport.rubiks_cube.logic(angles)
+
 
     def mouse_events(self, event):
         math = self.viewport.tools.math
