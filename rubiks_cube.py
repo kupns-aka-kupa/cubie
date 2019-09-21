@@ -44,7 +44,7 @@ class RubiksCube():
             [[], colors['WO_edges']],
             [[], colors['WR_edges']],
             [[], colors['YR_edges']],
-            [[], colors['YO_edges']],
+            [[], colors['YO_edges']]
         ]
 
         self.centers = [
@@ -53,12 +53,12 @@ class RubiksCube():
             [[], colors['W_center']],
             [[], colors['Y_center']],
             [[], colors['R_center']],
-            [[], colors['O_center']],
+            [[], colors['O_center']]
         ]
 
         self.coords_gen(self.dimension)
 
-    def gen_pieces(self, tresh, mult):
+    def coords_pieces_gen(self, tresh, mult):
         n = self.dimension - 1
 
         corners_coords = (-n, n), (-n, n), (-n, n)
@@ -120,14 +120,14 @@ class RubiksCube():
                 self.centers[4][0] += tuple(set(pd(*R_center)))
                 self.centers[5][0] += tuple(set(pd(*O_center)))
 
-    def coords_gen(self, n):
+    def coords_gen(self):
         n = self.dimension - 1
         even = bool(n % 2)
 
         if even:
-            self.gen_pieces(2, 2)
+            self.coords_pieces_gen(2, 2)
         else:
-            self.gen_pieces(0, 1)
+            self.coords_pieces_gen(0, 1)
 
     def logic(self, angles):
 

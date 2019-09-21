@@ -7,8 +7,8 @@
 
 # Logic
 + cube Logic
-- n-cube generation(in progress)
-- key mapping
++ n-cube generation
+- universal key map(in progress)
 - timer
 - menu
 - n-cubes
