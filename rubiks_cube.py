@@ -56,7 +56,7 @@ class RubiksCube():
             [[], colors['O_center']]
         ]
 
-        self.coords_gen(self.dimension)
+        self.coords_gen()
 
     def coords_pieces_gen(self, tresh, mult):
         n = self.dimension - 1
