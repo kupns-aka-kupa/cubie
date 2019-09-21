@@ -11,6 +11,6 @@ class Viewport():
 
     def update(self):
         self.pg.display.get_surface().fill(self.data.colors.white)
-#        self.grid.render()
+        self.grid.render()
         self.rubiks_cube.render()
         self.pg.display.flip()

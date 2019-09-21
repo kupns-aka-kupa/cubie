@@ -9,7 +9,7 @@ class RubiksCube():
         self.data, self.device = data
         self.depth = 0
         self.queue = []
-        self.dimension = 5
+        self.dimension = 4
         self.wireframe = False
         self.cube_generator()
 
@@ -20,7 +20,7 @@ class RubiksCube():
 
     def cube_init(self):
         colors = self.data.colors
-#       start_coord(y,x,z)
+#       start_coord - y,x,z
         self.corners = [
             [None, colors['YGO_corner']],
             [None, colors['YRG_corner']],
@@ -58,73 +58,76 @@ class RubiksCube():
 
         self.coords_gen(self.dimension)
 
+    def gen_pieces(self, tresh, mult):
+        n = self.dimension - 1
+
+        corners_coords = (-n, n), (-n, n), (-n, n)
+        for i in range(len(self.corners)):
+            self.corners[i][0] = tuple(pd(*corners_coords))[i]
+
+        for i in range(n - tresh, 0 , -2):
+
+            YB_edges = (n, n, n), (-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult)
+            self.edges[0][0] += tuple(set(pd(*YB_edges)))
+
+            WB_edges = (n, n, n), (n, n, n), (n - i * mult, -n + i * mult, -n + i * mult)
+            self.edges[1][0] += tuple(set(pd(*WB_edges)))
+
+            YG_edges = (-n, -n, -n), (-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult)
+            self.edges[2][0] += tuple(set(pd(*YG_edges)))
+
+            WG_edges = (-n, -n, -n), (n, n, n), (n - i * mult, -n + i * mult, -n + i * mult)
+            self.edges[3][0] += tuple(set(pd(*WG_edges)))
+
+            GO_edges = (-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n)
+            self.edges[4][0] += tuple(set(pd(*GO_edges)))
+
+            OB_edges = (n, n, n), (n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n)
+            self.edges[5][0] += tuple(set(pd(*OB_edges)))
+
+            BR_edges = (-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult), (n, n, n)
+            self.edges[6][0] += tuple(set(pd(*BR_edges)))
+
+            RG_edges = (n, n, n), (n - i * mult, -n + i * mult, -n + i * mult), (n, n, n)
+            self.edges[7][0] += tuple(set(pd(*RG_edges)))
+
+            WO_edges = (n - i * mult, -n + i * mult, -n + i * mult), (n, n, n), (-n, -n, -n)
+            self.edges[8][0] += tuple(set(pd(*WO_edges)))
+
+            WR_edges = (n - i * mult, -n + i * mult, -n + i * mult), (n, n, n), (n, n, n)
+            self.edges[9][0] += tuple(set(pd(*WR_edges)))
+
+            YR_edges = (n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n), (n, n, n)
+            self.edges[10][0] += tuple(set(pd(*YR_edges)))
+
+            YO_edges = (n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n), (-n, -n, -n)
+            self.edges[11][0] += tuple(set(pd(*YO_edges)))
+
+            for j in range(n - tresh, 0 , -2):
+
+                B_center = (n, n, n), (n - j * mult, -n + j * mult, n - j * mult), (n - i * mult, -n + i * mult, n - i * mult)
+                G_center = (-n, -n, -n), (n - j * mult, -n + j * mult, n - j * mult), (n - i * mult, -n + i * mult, n - i * mult)
+                self.centers[0][0] += tuple(set(pd(*B_center)))
+                self.centers[1][0] += tuple(set(pd(*G_center)))
+
+                W_center = (n - j * mult, -n + j * mult, n - j * mult), (n, n, n), (n - i * mult, -n + i * mult, n - i * mult)
+                Y_center = (n - j * mult, -n + j * mult, n - j * mult), (-n, -n, -n), (n - i * mult, -n + i * mult, n - i * mult)
+                self.centers[2][0] += tuple(set(pd(*W_center)))
+                self.centers[3][0] += tuple(set(pd(*Y_center)))
+
+                R_center = (n - j * mult, -n + j * mult, n - j * mult), (n - i * mult, -n + i * mult, n - i * mult), (n, n, n)
+                O_center = (n - j * mult, -n + j * mult, n - j * mult), (n - i * mult, -n + i * mult, n - i * mult), (-n, -n, -n)
+                self.centers[4][0] += tuple(set(pd(*R_center)))
+                self.centers[5][0] += tuple(set(pd(*O_center)))
+
     def coords_gen(self, n):
-        n = n - 1
+        n = self.dimension - 1
         even = bool(n % 2)
 
-        corners_coords = [(-n, n), (-n, n), (-n, n)]
-        cp_cor = tuple(pd(*corners_coords))
-        for i in range(len(self.corners)):
-            self.corners[i][0] = cp_cor[i]
-
         if even:
-            pass
+            self.gen_pieces(2, 2)
         else:
-
-            for i in range(n, 0 , -2):
-
-                YB_edges = [(n, n, n), (-n, -n, -n), (n - i, -n + i, -n + i)]
-                self.edges[0][0] += list(set(pd(*list(YB_edges))))
-
-                WB_edges = [(n, n, n), (n, n, n), (n - i, -n + i, -n + i)]
-                self.edges[1][0] += list(set(pd(*list(WB_edges))))
-
-                YG_edges = [(-n, -n, -n), (-n, -n, -n), (n - i, -n + i, -n + i)]
-                self.edges[2][0] += list(set(pd(*list(YG_edges))))
-
-                WG_edges = [(-n, -n, -n), (n, n, n), (n - i, -n + i, -n + i)]
-                self.edges[3][0] += list(set(pd(*list(WG_edges))))
-
-                GO_edges = [(-n, -n, -n), (n - i, -n + i, -n + i), (-n, -n, -n)]
-                self.edges[4][0] += list(set(pd(*list(GO_edges))))
-
-                OB_edges = [(n, n, n), (n - i, -n + i, -n + i), (-n, -n, -n)]
-                self.edges[5][0] += list(set(pd(*list(OB_edges))))
-
-                BR_edges = [(-n, -n, -n), (n - i, -n + i, -n + i), (n, n, n)]
-                self.edges[6][0] += list(set(pd(*list(BR_edges))))
-
-                RG_edges = [(n, n, n), (n - i, -n + i, -n + i), (n, n, n)]
-                self.edges[7][0] += list(set(pd(*list(RG_edges))))
-
-                WO_edges = [(n - i, -n + i, -n + i), (n, n, n), (-n, -n, -n)]
-                self.edges[8][0] += list(set(pd(*list(WO_edges))))
-
-                WR_edges = [(n - i, -n + i, -n + i), (n, n, n), (n, n, n)]
-                self.edges[9][0] += list(set(pd(*list(WR_edges))))
-
-                YR_edges = [(n - i, -n + i, -n + i), (-n, -n, -n), (n, n, n)]
-                self.edges[10][0] += list(set(pd(*list(YR_edges))))
-
-                YO_edges = [(n - i, -n + i, -n + i), (-n, -n, -n), (-n, -n, -n)]
-                self.edges[11][0] += list(set(pd(*list(YO_edges))))
-
-                for j in range(n, 0 , -2):
-
-                    B_center = (n, n, n), (n - j, -n + j, n - j), (n - i, -n + i, n - i)
-                    G_center = (-n, -n, -n), (n - j, -n + j, n - j), (n - i, -n + i, n - i)
-                    self.centers[0][0] += list(set(pd(*list(B_center))))
-                    self.centers[1][0] += list(set(pd(*list(G_center))))
-
-                    W_center = (n - j, -n + j, n - j), (n, n, n), (n - i, -n + i, n - i)
-                    Y_center = (n - j, -n + j, n - j), (-n, -n, -n), (n - i, -n + i, n - i)
-                    self.centers[2][0] += list(set(pd(*list(W_center))))
-                    self.centers[3][0] += list(set(pd(*list(Y_center))))
-
-                    R_center = (n - j, -n + j, n - j), (n - i, -n + i, n - i), (n, n, n)
-                    O_center = (n - j, -n + j, n - j), (n - i, -n + i, n - i), (-n, -n, -n)
-                    self.centers[4][0] += list(set(pd(*list(R_center))))
-                    self.centers[5][0] += list(set(pd(*list(O_center))))
+            self.gen_pieces(0, 1)
 
     def logic(self, angles):
 
@@ -152,13 +155,13 @@ class RubiksCube():
         for corner in self.corners:
             self.queue.append(cube.Cube(self.camera, self.pg, (self.data, self.device), corner[1], corner[0]))
 
-            for edge in self.edges:
-                for i in range(len(edge[0])):
-                    self.queue.append(cube.Cube(self.camera, self.pg, (self.data, self.device), edge[1], edge[0][i]))
-
-            for center in self.centers:
-                for i in range(len(center[0])):
-                    self.queue.append(cube.Cube(self.camera, self.pg, (self.data, self.device), center[1], center[0][i]))
+        for edge in self.edges:
+            for i in range(len(edge[0])):
+                self.queue.append(cube.Cube(self.camera, self.pg, (self.data, self.device), edge[1], edge[0][i]))
+#
+        for center in self.centers:
+            for i in range(len(center[0])):
+                self.queue.append(cube.Cube(self.camera, self.pg, (self.data, self.device), center[1], center[0][i]))
 
     def display_order(self):
         depth = []
