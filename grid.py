@@ -1,11 +1,13 @@
+import tools
+
 class Grid():
 
-    def __init__(self, camera, pygame, data, tools, pos = (0, 0, 0)):
+    def __init__(self, camera, pygame, data, pos = (0, 0, 0)):
 
         self.camera = camera
         self.pg = pygame
         self.data, self.device = data
-        self.tools = tools
+        self.tools = tools.Tools()
         self.pos = list(pos)
         self.size = self.data.size
         self.axis = self.data.vertex
@@ -31,7 +33,7 @@ class Grid():
                     z = camera.pos[2]
                 elif not camera.orto_view:
                     z += camera.pos[2]
-                f = camera.zoom / z
+                f = camera.fov / z
                 x, y = x * f, y * f
 #               char grid and dots
                 screen.blit(self.font.render(str(index), False, colors.black), (cx + x, cy + y))

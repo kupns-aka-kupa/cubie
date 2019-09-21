@@ -23,6 +23,8 @@ class keys(Data):
         'layer_2' : 50,#2
         'layer_3' : 51,#3
         'layer_4' : 52,#4
+        '-' : 269,#4
+        '+' : 270,#4
         }
 
 class device(Data):

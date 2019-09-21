@@ -1,13 +1,20 @@
 # RubiCube
-
 Game - Simulator of Rubiks Cube
 
-keys :
+Packages :
+
+    PyGame - 'py -m pip install -U pygame --user'
+
+Running : start 'main.py' file
+
+Keys :
 
     1)camera view:
     
-        mode    - 'o'
-        rotate  - 'MMB + mouse'
+        mode    = 'o'
+        rotate  = 'MMB + mouse'
+        fov     = + 'MMB4'; - 'MMB5'
+        zoom    = + '+'; - '-'
         
     2)cube moving languge:
     

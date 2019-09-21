@@ -1,4 +1,5 @@
 from os import sys
+import math
 
 class Events():
     def __init__(self, viewport):
@@ -22,7 +23,6 @@ class Events():
             self.keyboard_events(event)
 
     def keyboard_events(self, event):
-        math = self.viewport.tools.math
         key_map = self.data.key_map
 
         U_angle = 0
@@ -35,6 +35,12 @@ class Events():
         if event.type == self.pg.KEYDOWN:
             if event.key == key_map.key['o']:
                 self.camera.orto_view = not self.camera.orto_view
+
+            if event.key == key_map.key['-']:
+                self.camera.pos[2] += 1
+
+            if event.key == key_map.key['+']:
+                self.camera.pos[2] -= 1
 
             if event.key == key_map.key['up']:
                 if self.shift:
@@ -77,7 +83,6 @@ class Events():
 
 
     def mouse_events(self, event):
-        math = self.viewport.tools.math
         key_map = self.data.key_map
         if event.type == self.pg.MOUSEMOTION and self.middle_mouse:
             x, y = event.rel
@@ -99,6 +104,6 @@ class Events():
 
         if event.type == self.pg.MOUSEBUTTONDOWN:
             if event.button == 4:
-                self.camera.zoom += 50
+                self.camera.fov += 50
             if event.button == 5:
-                self.camera.zoom -= 50
+                self.camera.fov -= 50

@@ -1,12 +1,13 @@
+import tools
 
 class Cube():
 
-    def __init__(self, camera, pygame, data, own_colors, tools, pos):
+    def __init__(self, camera, pygame, data, own_colors, pos):
         self.camera = camera
         self.pg = pygame
         self.data, self.device = data
         self.own_colors = own_colors
-        self.tools = tools
+        self.tools = tools.Tools()
         self.x0, self.y0, self.z0 = pos
         self.vertex = self.data.vertex.copy()
         self.rotx = 0; self.roty = 0; self.rotz = 0
@@ -29,17 +30,13 @@ class Cube():
         self.y0, self.z0 = self.tools.rotate((self.y0, self.z0), self.roty)
         self.x0, self.y0 = self.tools.rotate((self.x0, self.y0), self.rotz)
 
-        self.x0 = round(self.x0)
-        self.y0 = round(self.y0)
-        self.z0 = round(self.z0)
-
         for i in range(len(self.vertex)):
             x, y, z = self.vertex[i]
             x, z = self.tools.rotate((x, z), self.rotx)
             y, z = self.tools.rotate((y, z), self.roty)
             x, y = self.tools.rotate((x, y), self.rotz)
 
-            self.vertex[i] = [round(x), round(y), round(z)]
+            self.vertex[i] = [x, y, z]
 
         self.rotx = 0; self.roty = 0; self.rotz = 0
 
@@ -65,7 +62,7 @@ class Cube():
                 z += camera.pos[2]
                 verts_list.append((x, y, z))
 
-            f = camera.zoom / z
+            f = camera.fov / z
             x, y = x * f, y * f
             screen_coords.append((cx + int(x), cy + int(y)))
         return  verts_list, screen_coords

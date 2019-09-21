@@ -1,11 +1,11 @@
 # Rendering
 + orto and perspective view
 + 3d rendering
+- animating
 - display settings
 - 2d user gui
 
 # Logic
-+ default keys in README.md
 + cube Logic
 - n-cube generation(in progress)
 - key mapping
