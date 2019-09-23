@@ -1,14 +1,14 @@
 # Rendering
 + orto and perspective view
 + 3d rendering
+- 2d user gui (in progress)
 - animating
 - display settings
-- 2d user gui
 
 # Logic
 + cube Logic
 + n-cube generation
-- universal key map(in progress)
+- key map (in progress)
 - timer
 - menu
 - n-cubes

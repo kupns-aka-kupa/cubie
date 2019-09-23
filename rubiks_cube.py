@@ -1,5 +1,6 @@
 import cube
 from itertools import product as pd
+from itertools import compress as cp
 
 class RubiksCube():
 
@@ -9,7 +10,7 @@ class RubiksCube():
         self.data, self.device = data
         self.depth = 0
         self.queue = []
-        self.dimension = 4
+        self.dimension = 3
         self.wireframe = False
         self.cube_generator()
 

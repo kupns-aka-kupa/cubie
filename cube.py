@@ -30,6 +30,8 @@ class Cube():
         self.y0, self.z0 = self.tools.rotate((self.y0, self.z0), self.roty)
         self.x0, self.y0 = self.tools.rotate((self.x0, self.y0), self.rotz)
 
+        self.x0, self.y0, self.z0 = round(self.x0), round(self.y0), round(self.z0)
+
         for i in range(len(self.vertex)):
             x, y, z = self.vertex[i]
             x, z = self.tools.rotate((x, z), self.rotx)
