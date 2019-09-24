@@ -1,4 +1,4 @@
-import cube
+from objects.primitives.cube import cube
 from itertools import product as pd
 from itertools import compress as cp
 

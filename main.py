@@ -1,13 +1,13 @@
 import pygame as pg
 import data
-import view
-import events
+from viewport import view
+from tools import file_manager as fm
+from events import events
 
 pg.init()
 clock = pg.time.Clock()
 
 data = data.Data()
-colors = data.colors
 device = data.device
 w, h = device.width,  device.height
 

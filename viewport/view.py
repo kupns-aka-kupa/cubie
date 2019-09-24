@@ -1,4 +1,6 @@
-import camera, rubiks_cube, grid
+from objects.camera import camera
+from objects.puzzles.rubiks_cube import rubiks_cube
+from objects.grid import grid
 
 class Viewport():
 
