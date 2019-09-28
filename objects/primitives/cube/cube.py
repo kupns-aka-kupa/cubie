@@ -1,6 +1,6 @@
 from tools import tools
 
-class Cube():
+class Cube:
 
     def __init__(self, camera, pygame, data, own_colors, pos):
         self.camera = camera

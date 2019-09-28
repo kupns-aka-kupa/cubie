@@ -2,7 +2,7 @@ from objects.primitives.cube import cube
 from itertools import product as pd
 from itertools import compress as cp
 
-class RubiksCube():
+class RubiksCube:
 
     def __init__(self, camera, pygame, data):
         self.camera = camera
@@ -10,7 +10,7 @@ class RubiksCube():
         self.data, self.device = data
         self.depth = 0
         self.queue = []
-        self.dimension = 3
+        self.dimension = 2
         self.wireframe = False
         self.cube_generator()
 

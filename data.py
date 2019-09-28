@@ -1,94 +1,146 @@
-class Data():
-    def __init__(self):
-        self.colors = palette()
-        self.cube = cube()
-        self.grid = grid()
-        self.device = device()
-        self.key_map = keys()
+from tools import file_manager
 
-class keys(Data):
-    def __init__(self):
-        self.key = {
-        'up' : 119,#w
-        'down' : 115,#s
-        'left' : 97,#a
-        'right' : 100,#d
-        'front' : 101,#e
-        'back' : 113,#q
-        'o' : 111,#o
-        'z' : 122,#z
-        'x' : 120,#x
-        'c' : 99,#c
-        'layer_1' : 49,#1
-        'layer_2' : 50,#2
-        'layer_3' : 51,#3
-        'layer_4' : 52,#4
-        '-' : 269,#4
-        '+' : 270,#4
-        }
+fm = file_manager.FileManager()
 
-class device(Data):
+
+class Data:
     def __init__(self):
-        self.width = 800
-        self.height = 800
+        self.colors = Palette()
+        self.device = Device()
+        self.cube = Cube(self.colors)
+        self.grid = Grid(self.colors)
+        self.gui = GUI()
+        self.key_map = Keys()
+
+
+class Keys(Data):
+    def __init__(self):
+        self.key = fm.open_file('settings/key_bindings/key_map.json')
+
+
+class Device(Data):
+    def __init__(self):
+        data = fm.open_file('settings/device/preferences.json')
+        self.width = data['width']
+        self.height = data['height']
         self.center_x = self.width // 2
         self.center_y = self.height // 2
-        self.fps = 60
+        self.mode = data['mode']
+        self.fps = data['fps']
+        self.sensivity = data['sensivity']
 
-class cube(Data):
-    def __init__(self):
-        self.palette = palette()
-        self.line_width = 2
-        self.vertex = [[-1, -1, -1], [1, -1, -1], [1, 1, -1], [-1, 1, -1], [-1, -1, 1], [1, -1, 1], [1, 1, 1], [-1, 1, 1]]
-        self.edges = (0, 1), (1, 2), (2, 3), (3, 0), (4, 5), (5, 6), (6, 7), (7, 4) ,(0, 4), (1, 5), (2, 6), (3, 7)
-        self.faces = (0, 1, 2, 3), (1, 2, 6, 5), (0, 1, 5, 4), (4, 5, 6, 7), (0, 3, 7, 4), (2, 3, 7, 6)
+
+class Cube(Data):
+    def __init__(self, palette):
+        data = fm.open_file('objects/primitives/cube/cube.json')
+        self.palette = palette
+        self.line_width = data['line_width']
+        self.vertex = data['vertex']
+        self.edges = data['edges']
+        self.faces = data['faces']
         self.colors = {
             'YOB_corner': [self.palette.orange, self.palette.blue, self.palette.yellow, self.palette.black],
-            'YBR_corner': [self.palette.black, self.palette.blue, self.palette.yellow, self.palette.red, self.palette.black],
-            'YRG_corner': [self.palette.black, self.palette.black, self.palette.yellow, self.palette.red, self.palette.green, self.palette.black],
-            'YGO_corner': [self.palette.orange, self.palette.black, self.palette.yellow, self.palette.black, self.palette.green, self.palette.black],
+            'YBR_corner': [self.palette.black, self.palette.blue, self.palette.yellow, self.palette.red,
+                           self.palette.black],
+            'YRG_corner': [self.palette.black, self.palette.black, self.palette.yellow, self.palette.red,
+                           self.palette.green, self.palette.black],
+            'YGO_corner': [self.palette.orange, self.palette.black, self.palette.yellow, self.palette.black,
+                           self.palette.green, self.palette.black],
 
-            'WOB_corner': [self.palette.orange, self.palette.blue, self.palette.black, self.palette.black, self.palette.black, self.palette.white],
-            'WBR_corner': [self.palette.black, self.palette.blue, self.palette.black, self.palette.red, self.palette.black, self.palette.white],
-            'WRG_corner': [self.palette.black, self.palette.black, self.palette.black, self.palette.red, self.palette.green, self.palette.white],
-            'WGO_corner': [self.palette.orange, self.palette.black, self.palette.black, self.palette.black, self.palette.green, self.palette.white],
+            'WOB_corner': [self.palette.orange, self.palette.blue, self.palette.black, self.palette.black,
+                           self.palette.black, self.palette.white],
+            'WBR_corner': [self.palette.black, self.palette.blue, self.palette.black, self.palette.red,
+                           self.palette.black, self.palette.white],
+            'WRG_corner': [self.palette.black, self.palette.black, self.palette.black, self.palette.red,
+                           self.palette.green, self.palette.white],
+            'WGO_corner': [self.palette.orange, self.palette.black, self.palette.black, self.palette.black,
+                           self.palette.green, self.palette.white],
 
-            'YB_edges' : [self.palette.black, self.palette.blue, self.palette.yellow, self.palette.black],
-            'YR_edges' : [self.palette.black, self.palette.black, self.palette.yellow, self.palette.red, self.palette.black],
-            'YG_edges' : [self.palette.black, self.palette.black, self.palette.yellow, self.palette.black, self.palette.green, self.palette.black],
-            'YO_edges' : [self.palette.orange, self.palette.black, self.palette.yellow, self.palette.black],
+            'YB_edges': [self.palette.black, self.palette.blue, self.palette.yellow, self.palette.black],
+            'YR_edges': [self.palette.black, self.palette.black, self.palette.yellow, self.palette.red,
+                         self.palette.black],
+            'YG_edges': [self.palette.black, self.palette.black, self.palette.yellow, self.palette.black,
+                         self.palette.green, self.palette.black],
+            'YO_edges': [self.palette.orange, self.palette.black, self.palette.yellow, self.palette.black],
 
-            'WB_edges' : [self.palette.black, self.palette.blue, self.palette.black, self.palette.black, self.palette.black, self.palette.white],
-            'WR_edges' : [self.palette.black, self.palette.black, self.palette.black, self.palette.red, self.palette.black, self.palette.white],
-            'WG_edges' : [self.palette.black, self.palette.black, self.palette.black, self.palette.black, self.palette.green, self.palette.white],
-            'WO_edges' : [self.palette.orange, self.palette.black, self.palette.black, self.palette.black, self.palette.black, self.palette.white],
+            'WB_edges': [self.palette.black, self.palette.blue, self.palette.black, self.palette.black,
+                         self.palette.black, self.palette.white],
+            'WR_edges': [self.palette.black, self.palette.black, self.palette.black, self.palette.red,
+                         self.palette.black, self.palette.white],
+            'WG_edges': [self.palette.black, self.palette.black, self.palette.black, self.palette.black,
+                         self.palette.green, self.palette.white],
+            'WO_edges': [self.palette.orange, self.palette.black, self.palette.black, self.palette.black,
+                         self.palette.black, self.palette.white],
 
-            'OB_edges' : [self.palette.orange, self.palette.blue, self.palette.black],
-            'BR_edges' : [self.palette.black, self.palette.blue, self.palette.black, self.palette.red, self.palette.black],
-            'RG_edges' : [self.palette.black, self.palette.black, self.palette.black, self.palette.red, self.palette.green, self.palette.black],
-            'GO_edges' : [self.palette.orange, self.palette.black, self.palette.black, self.palette.black, self.palette.green, self.palette.black],
+            'OB_edges': [self.palette.orange, self.palette.blue, self.palette.black],
+            'BR_edges': [self.palette.black, self.palette.blue, self.palette.black, self.palette.red,
+                         self.palette.black],
+            'RG_edges': [self.palette.black, self.palette.black, self.palette.black, self.palette.red,
+                         self.palette.green, self.palette.black],
+            'GO_edges': [self.palette.orange, self.palette.black, self.palette.black, self.palette.black,
+                         self.palette.green, self.palette.black],
 
-            'B_center' : [self.palette.black, self.palette.blue, self.palette.black],
-            'W_center' : [self.palette.black, self.palette.black, self.palette.black, self.palette.black, self.palette.black, self.palette.white],
-            'R_center' : [self.palette.black, self.palette.black, self.palette.black, self.palette.red, self.palette.black],
-            'G_center' : [self.palette.black, self.palette.black, self.palette.black, self.palette.black, self.palette.green, self.palette.black],
-            'Y_center' : [self.palette.black, self.palette.black, self.palette.yellow, self.palette.black],
-            'O_center' : [self.palette.orange, self.palette.black]
+            'B_center': [self.palette.black, self.palette.blue, self.palette.black],
+            'W_center': [self.palette.black, self.palette.black, self.palette.black, self.palette.black,
+                         self.palette.black, self.palette.white],
+            'R_center': [self.palette.black, self.palette.black, self.palette.black, self.palette.red,
+                         self.palette.black],
+            'G_center': [self.palette.black, self.palette.black, self.palette.black, self.palette.black,
+                         self.palette.green, self.palette.black],
+            'Y_center': [self.palette.black, self.palette.black, self.palette.yellow, self.palette.black],
+            'O_center': [self.palette.orange, self.palette.black]
+        }
+
+
+class Palette(Data):
+    def __init__(self):
+        data = fm.open_file('settings/device/palette.json')
+        self.black = data['black']
+        self.white = data['white']
+        self.green = data['green']
+        self.yellow = data['yellow']
+        self.blue = data['blue']
+        self.orange = data['orange']
+        self.red = data['red']
+
+
+class GUI(Data):
+    def __init__(self):
+        self.buttons = {
+            'Play': {
+                'action': (),
+                'New': {
+                    'action': ()
+                },
+                'Load': {
+                    'action': ()
+                }
+            },
+            'Profile': {
+                'action': ()
+            },
+            'Settings': {
+                'action': ()
+            },
+            'About': {
+                'action': ()
+            },
+            'Exit': {
+                'action': (),
+                'Yes': {
+                    'action': ()
+                },
+                'No': {
+                    'action': ()
+                }
             }
+        }
 
-class palette(Data):
-    def __init__(self):
-        self.black = (0, 0, 0)
-        self.white = (255, 255, 255)
-        self.green = (0, 200, 64)
-        self.yellow = (225, 225, 0)
-        self.blue = (0, 0, 255)
-        self.orange = (255, 165, 0)
-        self.red = (255, 0, 0)
 
-class grid(Data):
-    def __init__(self):
-        self.colors = palette()
-        self.vertex = [[1, 0, 0], [0, -1, 0], [0, 0, 1], [-1, 0, 0], [0, 1, 0], [0, 0, -1]]
-        self.size = 10
-        self.labels = ['+x', '-y', '+z', '-x', '+y', '-z' ]
+class Grid(Data):
+    def __init__(self, palette):
+        data = fm.open_file('objects/grid/grid.json')
+        self.colors = palette
+        self.vertex = data['vertex']
+        self.size = data['size']
+        self.labels = data['labels']

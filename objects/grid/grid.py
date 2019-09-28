@@ -1,8 +1,9 @@
 from tools import tools
 
-class Grid():
 
-    def __init__(self, camera, pygame, data, pos = (0, 0, 0)):
+class Grid:
+
+    def __init__(self, camera, pygame, data, pos=(0, 0, 0)):
 
         self.camera = camera
         self.pg = pygame
@@ -12,7 +13,7 @@ class Grid():
         self.size = self.data.size
         self.axis = self.data.vertex
         self.labels = self.data.labels
-        self.font = self.pg.font.SysFont('Comic Sans MS', 15)
+        self.font = self.pg.font.SysFont('Lucida Console', 15)
 
     def render(self):
         screen = self.pg.display.get_surface()
@@ -35,9 +36,9 @@ class Grid():
                     z += camera.pos[2]
                 f = camera.fov / z
                 x, y = x * f, y * f
-#               char grid and dots
+                #               char grid and dots
                 screen.blit(self.font.render(str(index), False, colors.black), (cx + x, cy + y))
                 self.pg.draw.circle(screen, colors.black, (cx + int(x), cy + int(y)), 2)
-#           labels and axels
+            #           labels and axels
             screen.blit(self.font.render(self.labels[i], False, colors.black), (cx + 1.1 * x, cy + 1.1 * y))
-            self.pg.draw.line(screen, colors.black, [cx , cy ], (cx + x, cy + y), 1)
+            self.pg.draw.line(screen, colors.black, [cx, cy], (cx + x, cy + y), 1)
