@@ -1,6 +1,6 @@
 # RubiCube
 Game - Simulator of Rubiks Cube
-
+![Cubes](cubes_example.png)
 Packages :
 
     PyGame - 'py -m pip install -U pygame --user'
