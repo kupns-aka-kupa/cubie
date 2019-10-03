@@ -1,11 +1,13 @@
 # RubiCube
 Game - Simulator of Rubiks Cube
 
-Packages :
+![Cubes](cubes_example.png)
 
-    PyGame - 'py -m pip install -U pygame --user'
+Install packages :
+        'pip install -r requierments.txt'
 
-Running : start 'main.py' file
+Running :
+        start 'main.py' file
 
 Keys :
 

@@ -10,7 +10,7 @@ class RubiksCube:
         self.data, self.device = data
         self.depth = 0
         self.queue = []
-        self.dimension = 2
+        self.dimension = 3
         self.wireframe = False
         self.cube_generator()
 
