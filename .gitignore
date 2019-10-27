@@ -105,4 +105,5 @@ venv.bak/
 
 # user
 .idea/
- Diagram.drawio
+ escort/Diagram.drawio
+ .vs/
