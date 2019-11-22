@@ -1,28 +1,39 @@
-# RubiCube
-Game - Simulator of Rubiks Cube
+# Cubie
+Game - Simulator of Puzzles
 
-![Cubes](escort/cubes_example.png)
+![Cubes](cubes_example.png)
 
-Install packages :
-        'pip install -r escort/requierments.txt'
+**Install requirement packages** :
 
-Running :
-        start 'main.py' file
-
-Keys :
-
-    1)camera view:
-    
-        mode    = 'o'
-        rotate  = 'MMB + mouse'
-        fov     = 'MMB4' / 'MMB5'
-        zoom    = '+' / '-'
+```python
+pip install -r requierments.txt
+```
         
-    2)cube moving languge:
+**Running**:
+
+```python
+python main.py
+```
+<hr>
+
+**Keys**:
+
+1. Camera view:
+
+Action|Key|Alternative
+------|---|------------------
+mode  | O
+rotate| MMB + MOUSE
+fov   | MMB4 | MMB5
+zoom  | + | -
+        
+2. Cube moving languge:
     
-        (+ U) / (- U) = 'w' / 'shift + w'
-        (+ D) / (- D) = 's' / 'shift + s'
-        (+ F) / (- F) = 'e' / 'shift + e'
-        (+ B) / (- B) = 'q' / 'shift + q'
-        (+ R) / (- R) = 'd' / 'shift + d'
-        (+ L) / (- L) = 'a' / 'shift + a'
+Action|Key|Alternative
+------|---|------------------
+    U | W | PRESSED_SHIFT + W   
+    D | S | PRESSED_SHIFT + S
+    F | E | PRESSED_SHIFT + E
+    B | Q | PRESSED_SHIFT + Q
+    R | D | PRESSED_SHIFT + D
+    L | A | PRESSED_SHIFT + A
