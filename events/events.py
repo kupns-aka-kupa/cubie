@@ -88,7 +88,7 @@ class Events:
                 B_angle += math.pi / 2
 
         angles = (U_angle, D_angle, R_angle, L_angle, F_angle, B_angle)
-        self.__viewport.puzzle.logic(angles)
+        self.__viewport.puzzle.puzzle_logic(angles)
 
     def mouse_move(self, event):
         # self.__viewport.gui.mouse_x, self.__viewport.gui.mouse_x = event.pos

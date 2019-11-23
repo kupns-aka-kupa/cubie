@@ -1,40 +1,38 @@
+from ..puzzle import Puzzle
 from objects.primitives.cube.cube import Cube
 from itertools import product as pd
+from .presets import cube_dimension_presets
 
-CUBE_COLOR_MAP = ['objects/puzzle/rubiks_cube/color_map.json']
+CUBE_COLOR_MAP = ['objects/puzzle/rubiks_cube/cube_color_map.json']
 
 
-class RubiksCube:
+class RubiksCube(Puzzle):
     __corners = None
     __edges = None
     __centers = None
-    wireframe = False
 
     def __init__(self, root):
-        self.root = root
-        self.camera = self.root.root.camera
-        self.pg = self.root.root.pg
-        self.color_map = self.root.root.file_manager.load(CUBE_COLOR_MAP)['COLOR_MAP']
+        super().__init__(root)
+        self.color_map = self.root.root.file_manager.load(CUBE_COLOR_MAP)['CUBE_COLOR_MAP']
         self.depth = 0
-        self.queue = []
         self.dimension = 3
-        self.cube_generator()
+        self.puzzle_gen()
 
-    def cube_generator(self):
-        self.cube_init()
-        self.queue_init()
+    def puzzle_gen(self):
+        super().puzzle_gen()
+        self.render_queue_init(Cube)
 
-    def cube_init(self):
-        #       start_coord - y,x,z
+    def puzzle_struct_init(self):
+        #        start_coord - y,x,z
         self.__corners = [
-            [None, self.color_map['YGO_corner']],
-            [None, self.color_map['YRG_corner']],
-            [None, self.color_map['WGO_corner']],
-            [None, self.color_map['WRG_corner']],
-            [None, self.color_map['YOB_corner']],
-            [None, self.color_map['YBR_corner']],
-            [None, self.color_map['WOB_corner']],
-            [None, self.color_map['WBR_corner']]
+            [[], self.color_map['YGO_corner']],
+            [[], self.color_map['YRG_corner']],
+            [[], self.color_map['WGO_corner']],
+            [[], self.color_map['WRG_corner']],
+            [[], self.color_map['YOB_corner']],
+            [[], self.color_map['YBR_corner']],
+            [[], self.color_map['WOB_corner']],
+            [[], self.color_map['WBR_corner']]
         ]
         self.__edges = [
             [[], self.color_map['YB_edges']],
@@ -58,96 +56,97 @@ class RubiksCube:
             [[], self.color_map['R_center']],
             [[], self.color_map['O_center']]
         ]
-        self.coords_gen()
+        self._struct = [self.__corners, self.__edges, self.__centers]
 
-    def coords_pieces_gen(self, tresh, mult):
+    def __corners_coordinates_gen(self):
         n = self.dimension - 1
-        # corners
         coords = (-n, n), (-n, n), (-n, n)
-        for i in range(len(self.__corners)):
-            self.__corners[i][0] = tuple(pd(*coords))[i]
+        return [tuple(pd(*coords))[i] for i in range(len(self.__corners))]
 
-        for i in range(n - tresh, 0, -2):
+    def __edges_coordinates_gen(self, mult, i):
+        n = self.dimension - 1
+        coords = [
             # YB_edges
-            coords = (n, n, n), (-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult)
-            self.__edges[0][0] += tuple(set(pd(*coords)))
+            ((n, n, n), (-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult)),
             # WB_edges
-            coords = (n, n, n), (n, n, n), (n - i * mult, -n + i * mult, -n + i * mult)
-            self.__edges[1][0] += tuple(set(pd(*coords)))
+            ((n, n, n), (n, n, n), (n - i * mult, -n + i * mult, -n + i * mult)),
             # YG_edges
-            coords = (-n, -n, -n), (-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult)
-            self.__edges[2][0] += tuple(set(pd(*coords)))
+            ((-n, -n, -n), (-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult)),
             # WG_edges
-            coords = (-n, -n, -n), (n, n, n), (n - i * mult, -n + i * mult, -n + i * mult)
-            self.__edges[3][0] += tuple(set(pd(*coords)))
+            ((-n, -n, -n), (n, n, n), (n - i * mult, -n + i * mult, -n + i * mult)),
             # GO_edges
-            coords = (-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n)
-            self.__edges[4][0] += tuple(set(pd(*coords)))
+            ((-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n)),
             # OB_edges
-            coords = (n, n, n), (n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n)
-            self.__edges[5][0] += tuple(set(pd(*coords)))
+            ((n, n, n), (n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n)),
             # BR_edges
-            coords = (-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult), (n, n, n)
-            self.__edges[6][0] += tuple(set(pd(*coords)))
+            ((-n, -n, -n), (n - i * mult, -n + i * mult, -n + i * mult), (n, n, n)),
             # RG_edges
-            coords = (n, n, n), (n - i * mult, -n + i * mult, -n + i * mult), (n, n, n)
-            self.__edges[7][0] += tuple(set(pd(*coords)))
+            ((n, n, n), (n - i * mult, -n + i * mult, -n + i * mult), (n, n, n)),
             # WO_edges
-            coords = (n - i * mult, -n + i * mult, -n + i * mult), (n, n, n), (-n, -n, -n)
-            self.__edges[8][0] += tuple(set(pd(*coords)))
+            ((n - i * mult, -n + i * mult, -n + i * mult), (n, n, n), (-n, -n, -n)),
             # WR_edges
-            coords = (n - i * mult, -n + i * mult, -n + i * mult), (n, n, n), (n, n, n)
-            self.__edges[9][0] += tuple(set(pd(*coords)))
+            ((n - i * mult, -n + i * mult, -n + i * mult), (n, n, n), (n, n, n)),
             # YR_edges
-            coords = (n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n), (n, n, n)
-            self.__edges[10][0] += tuple(set(pd(*coords)))
+            ((n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n), (n, n, n)),
             # YO_edges
-            coords = (n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n), (-n, -n, -n)
-            self.__edges[11][0] += tuple(set(pd(*coords)))
+            ((n - i * mult, -n + i * mult, -n + i * mult), (-n, -n, -n), (-n, -n, -n))
+        ]
+        return [tuple(set(pd(*coords[j]))) for j in range(len(self.__edges))]
 
+    def __centers_coordinates_gen(self, mult, i, j):
+        n = self.dimension - 1
+        coords = [
+            # B_center
+            ((n, n, n), (n - j * mult, -n + j * mult, n - j * mult), (n - i * mult, -n + i * mult, n - i * mult)),
+            # G_center
+            ((-n, -n, -n), (n - j * mult, -n + j * mult, n - j * mult), (n - i * mult, -n + i * mult, n - i * mult)),
+            # W_center
+            ((n - j * mult, -n + j * mult, n - j * mult), (n, n, n), (n - i * mult, -n + i * mult, n - i * mult)),
+            # Y_center
+            ((n - j * mult, -n + j * mult, n - j * mult), (-n, -n, -n), (n - i * mult, -n + i * mult, n - i * mult)),
+            # R_center
+            ((n - j * mult, -n + j * mult, n - j * mult), (n - i * mult, -n + i * mult, n - i * mult), (n, n, n)),
+            # O_center
+            ((n - j * mult, -n + j * mult, n - j * mult), (n - i * mult, -n + i * mult, n - i * mult), (-n, -n, -n))
+        ]
+        return [tuple(set(pd(*coords[k]))) for k in range(len(self.__centers))]
+
+    def puzzle_part_coordinates_gen(self, tresh, mult):
+        # просто не суйся сюда ,окэй?
+        # все работает корректно ,а точнее лишних экземпляров не создает
+        corners = []
+        edges = [[] for _ in range(len(self.__edges))]
+        centers = [[] for _ in range(len(self.__centers))]
+        coords = [corners, edges, centers]
+
+        n = self.dimension - 1
+        corners_coords = self.__corners_coordinates_gen()
+        for j in range(len(self.__corners)):
+            corners.append([corners_coords[j]])
+        for i in range(n - tresh, 0, -2):
+            edges_coords = self.__edges_coordinates_gen(mult, i)
+            for j in range(len(self.__edges)):
+                edges[j] += edges_coords[j]
             for j in range(n - tresh, 0, -2):
-                # B_center
-                coords = (n, n, n), \
-                         (n - j * mult, -n + j * mult, n - j * mult), \
-                         (n - i * mult, -n + i * mult, n - i * mult)
-                self.__centers[0][0] += tuple(set(pd(*coords)))
-                # G_center
-                coords = (-n, -n, -n), \
-                         (n - j * mult, -n + j * mult, n - j * mult), \
-                         (n - i * mult, -n + i * mult, n - i * mult)
-                self.__centers[1][0] += tuple(set(pd(*coords)))
-                # W_center
-                coords = (n - j * mult, -n + j * mult, n - j * mult), \
-                         (n, n, n), \
-                         (n - i * mult, -n + i * mult, n - i * mult)
-                self.__centers[2][0] += tuple(set(pd(*coords)))
-                # Y_center
-                coords = (n - j * mult, -n + j * mult, n - j * mult), \
-                         (-n, -n, -n), \
-                         (n - i * mult, -n + i * mult, n - i * mult)
-                self.__centers[3][0] += tuple(set(pd(*coords)))
-                # R_center
-                coords = (n - j * mult, -n + j * mult, n - j * mult), \
-                         (n - i * mult, -n + i * mult, n - i * mult), \
-                         (n, n, n)
-                self.__centers[4][0] += tuple(set(pd(*coords)))
-                # O_center
-                coords = (n - j * mult, -n + j * mult, n - j * mult), \
-                         (n - i * mult, -n + i * mult, n - i * mult), \
-                         (-n, -n, -n)
-                self.__centers[5][0] += tuple(set(pd(*coords)))
+                centers_coords = self.__centers_coordinates_gen(mult, i, j)
+                for k in range(len(self.__centers)):
+                    centers[k] += centers_coords[k]
+        return coords
 
-    def coords_gen(self):
+    def puzzle_parts_gen(self):
         n = self.dimension - 1
         even = bool(n % 2)
 
-        if even:
-            self.coords_pieces_gen(2, 2)
+        if len(cube_dimension_presets) >= n:
+            return self.puzzle_default_preset_load(cube_dimension_presets, n - 1)
         else:
-            self.coords_pieces_gen(0, 1)
+            if even:
+                return self.puzzle_part_coordinates_gen(2, 2)
+            else:
+                return self.puzzle_part_coordinates_gen(0, 1)
 
-    def logic(self, angles):
-        for cube in self.queue:
+    def puzzle_logic(self, angles):
+        for cube in self._render_queue:
             if cube.y0 == -2:  # UP
                 cube.rotation((-angles[0], 0, 0))
 
@@ -165,32 +164,3 @@ class RubiksCube:
 
             if cube.z0 == 2:  # BACK
                 cube.rotation((0, 0, -angles[5]))
-
-    def queue_init(self):
-        for corner in self.__corners:
-            self.queue.append(
-                Cube(self.root, corner)
-            )
-
-        for edge in self.__edges:
-            for i in range(len(edge[0])):
-                self.queue.append(
-                    Cube(self.root, [edge[0][i], edge[1]])
-                )
-
-        for center in self.__centers:
-            for i in range(len(center[0])):
-                self.queue.append(
-                    Cube(self.root, [center[0][i], center[1]])
-                )
-
-    def display_order(self):
-        depth = []
-        for el in self.queue:
-            depth.append(el.depth)
-        return sorted(range(len(self.queue)), key=lambda i: depth[i], reverse=1)
-
-    def render(self):
-        display = self.display_order()
-        for i in display:
-            self.queue[i].render()

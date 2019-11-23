@@ -5,7 +5,7 @@ from objects.grid.grid import Grid
 from objects.puzzle.data import color_map
 
 VIEWPORT_FILES_SETTINGS = ['settings/palette.json']
-PUZZLES_COLOR_MAP = 'objects/puzzle/rubiks_cube/color_map.json'
+PUZZLES_COLOR_MAP = 'objects/puzzle/rubiks_cube/cube_color_map.json'
 
 
 class Viewport:

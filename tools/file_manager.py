@@ -3,8 +3,6 @@ import json
 
 
 class FileManager:
-    def __init__(self, root):
-        self.__root = root
 
     @staticmethod
     def recursive_load(stored_data, _list):

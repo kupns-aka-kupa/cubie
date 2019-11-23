@@ -17,7 +17,7 @@ class App:
         self.pg = pygame
         self.pg.init()
         self.clock = self.pg.time.Clock()
-        self.file_manager = FileManager(self)
+        self.file_manager = FileManager()
         self._settings = self.file_manager.load(config.GLOBAL_SETTINGS)
         self.camera = Camera(self)
         self.viewport = Viewport(self)
