@@ -1,18 +1,18 @@
 color_map = {
-    "YOB_corner": [
+    "YOB_CORNER": [
         "ORANGE",
         "BLUE",
         "YELLOW",
         "BLACK"
     ],
-    "YBR_corner": [
+    "YBR_CORNER": [
         "BLACK",
         "BLUE",
         "YELLOW",
         "RED",
         "BLACK"
     ],
-    "YRG_corner": [
+    "YRG_CORNER": [
         "BLACK",
         "BLACK",
         "YELLOW",
@@ -20,7 +20,7 @@ color_map = {
         "GREEN",
         "BLACK"
     ],
-    "YGO_corner": [
+    "YGO_CORNER": [
         "ORANGE",
         "BLACK",
         "YELLOW",
@@ -28,7 +28,7 @@ color_map = {
         "GREEN",
         "BLACK"
     ],
-    "WOB_corner": [
+    "WOB_CORNER": [
         "ORANGE",
         "BLUE",
         "BLACK",
@@ -36,7 +36,7 @@ color_map = {
         "BLACK",
         "WHITE"
     ],
-    "WBR_corner": [
+    "WBR_CORNER": [
         "BLACK",
         "BLUE",
         "BLACK",
@@ -44,7 +44,7 @@ color_map = {
         "BLACK",
         "WHITE"
     ],
-    "WRG_corner": [
+    "WRG_CORNER": [
         "BLACK",
         "BLACK",
         "BLACK",
@@ -52,7 +52,7 @@ color_map = {
         "GREEN",
         "WHITE"
     ],
-    "WGO_corner": [
+    "WGO_CORNER": [
         "ORANGE",
         "BLACK",
         "BLACK",
@@ -60,20 +60,20 @@ color_map = {
         "GREEN",
         "WHITE"
     ],
-    "YB_edges": [
+    "YB_EDGES": [
         "BLACK",
         "BLUE",
         "YELLOW",
         "BLACK"
     ],
-    "YR_edges": [
+    "YR_EDGES": [
         "BLACK",
         "BLACK",
         "YELLOW",
         "RED",
         "BLACK"
     ],
-    "YG_edges": [
+    "YG_EDGES": [
         "BLACK",
         "BLACK",
         "YELLOW",
@@ -81,13 +81,13 @@ color_map = {
         "GREEN",
         "BLACK"
     ],
-    "YO_edges": [
+    "YO_EDGES": [
         "ORANGE",
         "BLACK",
         "YELLOW",
         "BLACK"
     ],
-    "WB_edges": [
+    "WB_EDGES": [
         "BLACK",
         "BLUE",
         "BLACK",
@@ -95,7 +95,7 @@ color_map = {
         "BLACK",
         "WHITE"
     ],
-    "WR_edges": [
+    "WR_EDGES": [
         "BLACK",
         "BLACK",
         "BLACK",
@@ -103,7 +103,7 @@ color_map = {
         "BLACK",
         "WHITE"
     ],
-    "WG_edges": [
+    "WG_EDGES": [
         "BLACK",
         "BLACK",
         "BLACK",
@@ -111,7 +111,7 @@ color_map = {
         "GREEN",
         "WHITE"
     ],
-    "WO_edges": [
+    "WO_EDGES": [
         "ORANGE",
         "BLACK",
         "BLACK",
@@ -119,19 +119,19 @@ color_map = {
         "BLACK",
         "WHITE"
     ],
-    "OB_edges": [
+    "OB_EDGES": [
         "ORANGE",
         "BLUE",
         "BLACK"
     ],
-    "BR_edges": [
+    "BR_EDGES": [
         "BLACK",
         "BLUE",
         "BLACK",
         "RED",
         "BLACK"
     ],
-    "RG_edges": [
+    "RG_EDGES": [
         "BLACK",
         "BLACK",
         "BLACK",
@@ -139,7 +139,7 @@ color_map = {
         "GREEN",
         "BLACK"
     ],
-    "GO_edges": [
+    "GO_EDGES": [
         "ORANGE",
         "BLACK",
         "BLACK",
@@ -147,12 +147,12 @@ color_map = {
         "GREEN",
         "BLACK"
     ],
-    "B_center": [
+    "B_CENTER": [
         "BLACK",
         "BLUE",
         "BLACK"
     ],
-    "W_center": [
+    "W_CENTER": [
         "BLACK",
         "BLACK",
         "BLACK",
@@ -160,14 +160,14 @@ color_map = {
         "BLACK",
         "WHITE"
     ],
-    "R_center": [
+    "R_CENTER": [
         "BLACK",
         "BLACK",
         "BLACK",
         "RED",
         "BLACK"
     ],
-    "G_center": [
+    "G_CENTER": [
         "BLACK",
         "BLACK",
         "BLACK",
@@ -175,13 +175,13 @@ color_map = {
         "GREEN",
         "BLACK"
     ],
-    "Y_center": [
+    "Y_CENTER": [
         "BLACK",
         "BLACK",
         "YELLOW",
         "BLACK"
     ],
-    "O_center": [
+    "O_CENTER": [
         "ORANGE",
         "BLACK"
     ]

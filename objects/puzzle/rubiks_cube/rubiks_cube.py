@@ -15,7 +15,7 @@ class RubiksCube(Puzzle):
         super().__init__(root)
         self.color_map = self.root.root.file_manager.load(CUBE_COLOR_MAP)['CUBE_COLOR_MAP']
         self.depth = 0
-        self.dimension = 3
+        self.dimension = 8
         self.puzzle_gen()
 
     def puzzle_gen(self):
@@ -23,39 +23,16 @@ class RubiksCube(Puzzle):
         self.render_queue_init(Cube)
 
     def puzzle_struct_init(self):
-        #        start_coord - y,x,z
-        self.__corners = [
-            [[], self.color_map['YGO_corner']],
-            [[], self.color_map['YRG_corner']],
-            [[], self.color_map['WGO_corner']],
-            [[], self.color_map['WRG_corner']],
-            [[], self.color_map['YOB_corner']],
-            [[], self.color_map['YBR_corner']],
-            [[], self.color_map['WOB_corner']],
-            [[], self.color_map['WBR_corner']]
+        # start_coord - y,x,z
+        color_map_keys = [
+            ['YGO_CORNER', 'YRG_CORNER', 'WGO_CORNER', 'WRG_CORNER', 'YOB_CORNER', 'YBR_CORNER', 'WOB_CORNER', 'WBR_CORNER'],
+            ['YB_EDGES', 'WB_EDGES', 'YG_EDGES', 'WG_EDGES', 'GO_EDGES', 'OB_EDGES', 'RG_EDGES', 'BR_EDGES', 'WO_EDGES',
+             'WR_EDGES', 'YR_EDGES', 'YO_EDGES'],
+            ['B_CENTER', 'G_CENTER', 'W_CENTER', 'Y_CENTER', 'R_CENTER', 'O_CENTER']
         ]
-        self.__edges = [
-            [[], self.color_map['YB_edges']],
-            [[], self.color_map['WB_edges']],
-            [[], self.color_map['YG_edges']],
-            [[], self.color_map['WG_edges']],
-            [[], self.color_map['GO_edges']],
-            [[], self.color_map['OB_edges']],
-            [[], self.color_map['RG_edges']],
-            [[], self.color_map['BR_edges']],
-            [[], self.color_map['WO_edges']],
-            [[], self.color_map['WR_edges']],
-            [[], self.color_map['YR_edges']],
-            [[], self.color_map['YO_edges']]
-        ]
-        self.__centers = [
-            [[], self.color_map['B_center']],
-            [[], self.color_map['G_center']],
-            [[], self.color_map['W_center']],
-            [[], self.color_map['Y_center']],
-            [[], self.color_map['R_center']],
-            [[], self.color_map['O_center']]
-        ]
+        self.__corners = [[[], self.color_map[i]] for i in color_map_keys[0]]
+        self.__edges = [[[], self.color_map[i]] for i in color_map_keys[1]]
+        self.__centers = [[[], self.color_map[i]] for i in color_map_keys[2]]
         self._struct = [self.__corners, self.__edges, self.__centers]
 
     def __corners_coordinates_gen(self):
@@ -138,8 +115,10 @@ class RubiksCube(Puzzle):
         even = bool(n % 2)
 
         if len(cube_dimension_presets) >= n:
+            print("Preset found, loading ...")
             return self.puzzle_default_preset_load(cube_dimension_presets, n - 1)
         else:
+            print("Preset not found, generating {}-measured cube ...".format(self.dimension))
             if even:
                 return self.puzzle_part_coordinates_gen(2, 2)
             else:
