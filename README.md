@@ -2,37 +2,39 @@
 
 [![](https://badgen.net/badge/3d/pygame)](https://pypi.org/project/pygame/)
 
-Game - Simulator of Puzzles
+Simulator of Puzzles
+
+------
 
 ![Cubes](cubes_example.png)
 
 **Install requirement packages** :
 
 ```python
-pip install -r requierments.txt
+    pip install -r requierments.txt
 ```
         
 **Running**:
 
 ```python
-python main.py
+    python main.py
 ```
-<hr>
+------
 
 **Keys**:
 
 1. Camera view:
 
-Action|Key|Alternative
-------:|:---:|:------------------
-mode  | O
-rotate| MMB + MOUSE
-fov   | MMB4 | MMB5
-zoom  | + | -
+Action|Key         |Alternative|
+-----:|:----------:|:---------:|
+mode  | O          |`-----`    |
+rotate| MMB + MOUSE|`-----`    |
+fov   | MMB4       | MMB5      |
+zoom  | +          |`-----`    |
         
 2. Cube moving languge:
     
-|Action|Key|Alternative           |
+|Action|Key  |Alternative         |
 |:----:|:---:|:------------------:|
 |   U  |  W  | PRESSED_SHIFT + W  |
 |   D  |  S  | PRESSED_SHIFT + S  |
