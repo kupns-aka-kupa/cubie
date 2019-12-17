@@ -1,24 +1,30 @@
+from file import save
+
+
 class Puzzle:
 
     _struct = None
     _render_queue = None
     wireframe = False
 
-    def __init__(self, root):
+    def __init__(self, root, puzzle_color_map, color_map):
         self.root = root
         self.camera = self.root.root.camera
         self.pg = self.root.root.pg
         self._render_queue = []
 
+        json_color_map = {key: [self.root.current_palette[color] for color in data] for key, data in color_map.items()}
+        save(json_color_map, puzzle_color_map)
+
     @staticmethod
-    def puzzle_default_preset_load(presets, preset_num):
+    def default_preset_load(presets, preset_num):
         return presets[preset_num]
 
-    def puzzle_gen(self):
-        self.puzzle_struct_init()
-        self.puzzle_parts_build(self.puzzle_parts_gen())
+    def gen(self):
+        self.struct_init()
+        self.parts_build(self.parts_gen())
 
-    def puzzle_parts_build(self, struct_coordinates):
+    def parts_build(self, struct_coordinates):
         for i in range(len(struct_coordinates)):
             for j in range(len(struct_coordinates[i])):
                 self._struct[i][j][0] = struct_coordinates[i][j]

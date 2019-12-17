@@ -1,8 +1,6 @@
 from os import sys
 import math
 
-INPUT_FILES_SETTINGS = ['settings/key_bindings/key_map.json']
-
 
 class Events:
     def __init__(self, root):
@@ -10,7 +8,7 @@ class Events:
         self.__viewport = self.root.viewport
         self.__camera = self.root.camera
         self.__pg = self.root.pg
-        self.key_map = self.root.file_manager.load(INPUT_FILES_SETTINGS)['KEY_MAP']
+        self.key_map = root.global_settings['EVENTS']['KEYBOARD']
         self.shift = False
         self.ctrl = False
         self.middle_mouse = False
@@ -88,14 +86,14 @@ class Events:
                 B_angle += math.pi / 2
 
         angles = (U_angle, D_angle, R_angle, L_angle, F_angle, B_angle)
-        self.__viewport.puzzle.puzzle_logic(angles)
+        self.__viewport.puzzle.logic(angles)
 
     def mouse_move(self, event):
         # self.__viewport.gui.mouse_x, self.__viewport.gui.mouse_x = event.pos
         if self.middle_mouse:
             x, y = event.rel
-            self.__camera.rot[0] += y / self.root._settings['PREFERENCES']['MOUSE_SENSITIVITY']
-            self.__camera.rot[1] += x / self.root._settings['PREFERENCES']['MOUSE_SENSITIVITY']
+            self.__camera.rot[0] += y / self.root.global_settings['VIEWPORT']['DEVICE']['MOUSE_SENSITIVITY']
+            self.__camera.rot[1] += x / self.root.global_settings['VIEWPORT']['DEVICE']['MOUSE_SENSITIVITY']
 
             if self.__camera.rot[0] >= math.pi:
                 self.__camera.rot[0] = -math.pi

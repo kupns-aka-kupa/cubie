@@ -1,5 +1,3 @@
-
-
 class Camera:
 
     def __init__(self, root, pos=(0, 0, 15), rot=(0, 0), fov=200):

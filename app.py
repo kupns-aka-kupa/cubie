@@ -3,22 +3,21 @@ import pygame
 from objects.camera.camera import Camera
 from viewport.view import Viewport
 from events.events import Events
-from tools.file_manager import FileManager
+from conf import Config
 
 
 class App:
 
     __run = False
-    _settings = None
+    global_settings = None
 
-    def __init__(self, config):
+    def __init__(self):
         self.__run = True
-        self.config = config
         self.pg = pygame
         self.pg.init()
+        self.global_conf = Config()
         self.clock = self.pg.time.Clock()
-        self.file_manager = FileManager()
-        self._settings = self.file_manager.load(config.GLOBAL_SETTINGS)
+        self.global_settings = self.global_conf.GLOBAL_SETTINGS
         self.camera = Camera(self)
         self.viewport = Viewport(self)
         self.events = Events(self)
@@ -27,12 +26,12 @@ class App:
 
         self.pg.display.set_mode(
             (
-                self._settings['PREFERENCES']['SCREEN_WIDTH'],
-                self._settings['PREFERENCES']['SCREEN_HEIGHT']
+                self.global_settings['VIEWPORT']['DEVICE']['SCREEN_WIDTH'],
+                self.global_settings['VIEWPORT']['DEVICE']['SCREEN_HEIGHT']
             ),
-            # self._settings['PREFERENCES']['FLAGS']
+            # self.global_settings['PREFERENCES']['FLAGS']
         )
-        self.pg.display.set_caption(self._settings['PREFERENCES']['APP_NAME'])
+        self.pg.display.set_caption(self.global_settings['VIEWPORT']['DEVICE']['APP_NAME'])
 
     def update(self):
 
@@ -42,7 +41,7 @@ class App:
 
             self.pg.display.flip()
 
-            self.clock.tick(self._settings["PREFERENCES"]['FPS'])
+            self.clock.tick(self.global_settings['VIEWPORT']['DEVICE']['FPS'])
 
     def suicide(self):
         self.__run = False

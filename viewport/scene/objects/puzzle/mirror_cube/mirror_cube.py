@@ -1,31 +1,35 @@
+from itertools import product as pd, permutations as perm
+
+from viewport.scene.objects.primitives.cube import Cube
 from ..puzzle import Puzzle
-from objects.primitives.cube.cube import Cube
-from itertools import product as pd
+from .color_map import COLOR_MAP
 from .presets import cube_dimension_presets
+from file import load
 
-CUBE_COLOR_MAP = ['objects/puzzle/rubiks_cube/cube_color_map.json']
 
-
-class RubiksCube(Puzzle):
+class MirrorCube(Puzzle):
     __corners = None
     __edges = None
     __centers = None
 
     def __init__(self, root):
-        super().__init__(root)
-        self.color_map = self.root.root.file_manager.load(CUBE_COLOR_MAP)['CUBE_COLOR_MAP']
-        self.depth = 0
-        self.dimension = 8
-        self.puzzle_gen()
+        color_map_path = root.root.global_settings['PUZZLE']['COLOR_MAPS']['MIRROR_CUBE']
+        super().__init__(root, color_map_path, COLOR_MAP)
+        self.color_map = load(color_map_path)
+        self.dimension = 3
+        self.gen()
 
-    def puzzle_gen(self):
-        super().puzzle_gen()
+    def gen(self):
+        super().gen()
         self.render_queue_init(Cube)
+        self.logic_matrix_init()
 
-    def puzzle_struct_init(self):
+    def struct_init(self):
+
         # start_coord - y,x,z
         color_map_keys = [
-            ['YGO_CORNER', 'YRG_CORNER', 'WGO_CORNER', 'WRG_CORNER', 'YOB_CORNER', 'YBR_CORNER', 'WOB_CORNER', 'WBR_CORNER'],
+            ['YGO_CORNER', 'YRG_CORNER', 'WGO_CORNER', 'WRG_CORNER', 'YOB_CORNER', 'YBR_CORNER', 'WOB_CORNER',
+             'WBR_CORNER'],
             ['YB_EDGES', 'WB_EDGES', 'YG_EDGES', 'WG_EDGES', 'GO_EDGES', 'OB_EDGES', 'RG_EDGES', 'BR_EDGES', 'WO_EDGES',
              'WR_EDGES', 'YR_EDGES', 'YO_EDGES'],
             ['B_CENTER', 'G_CENTER', 'W_CENTER', 'Y_CENTER', 'R_CENTER', 'O_CENTER']
@@ -88,9 +92,7 @@ class RubiksCube(Puzzle):
         ]
         return [tuple(set(pd(*coords[k]))) for k in range(len(self.__centers))]
 
-    def puzzle_part_coordinates_gen(self, tresh, mult):
-        # просто не суйся сюда ,окэй?
-        # все работает корректно ,а точнее лишних экземпляров не создает
+    def part_coordinates_gen(self, tresh, mult):
         corners = []
         edges = [[] for _ in range(len(self.__edges))]
         centers = [[] for _ in range(len(self.__centers))]
@@ -108,25 +110,37 @@ class RubiksCube(Puzzle):
                 centers_coords = self.__centers_coordinates_gen(mult, i, j)
                 for k in range(len(self.__centers)):
                     centers[k] += centers_coords[k]
+
         return coords
 
-    def puzzle_parts_gen(self):
+    def parts_gen(self):
         n = self.dimension - 1
         even = bool(n % 2)
 
         if len(cube_dimension_presets) >= n:
             print("Preset found, loading ...")
-            return self.puzzle_default_preset_load(cube_dimension_presets, n - 1)
+            return self.default_preset_load(cube_dimension_presets, n - 1)
         else:
             print("Preset not found, generating {}-measured cube ...".format(self.dimension))
             if even:
-                return self.puzzle_part_coordinates_gen(2, 2)
+                return self.part_coordinates_gen(2, 2)
             else:
-                return self.puzzle_part_coordinates_gen(0, 1)
+                return self.part_coordinates_gen(0, 1)
 
-    def puzzle_logic(self, angles):
+    def logic_matrix_init(self):
+        n = self.dimension - 1
+        self.mat = [[[] for i in range(self.dimension)] for i in range(self.dimension ** 2)]
+        coords = (0, n, -n)
+        print(list(perm(coords, 3)))
+        coords = (0, 0, -n)
+        print(list(set(perm(coords, 3))))
+        coords = (0, 0, n)
+        print(list(set(perm(coords, 3))))
+
+    def logic(self, angles):
+
         for cube in self._render_queue:
-            if cube.y0 == -2:  # UP
+            if cube.y0 == -2:
                 cube.rotation((-angles[0], 0, 0))
 
             if cube.y0 == 2:  # DOWN
