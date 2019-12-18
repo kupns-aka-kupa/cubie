@@ -12,7 +12,7 @@ class Viewport:
         self.current_palette = self.settings['PALETTES']['KDE']
 
         # self.puzzle = RubiksCube(self, 3)
-        self.puzzle = MirrorCube(self)
+        self.puzzle = MirrorCube(self, 3)
         self.grid = Grid(self)
         # self.gui = GUI(self)
         # self.gui.init_gui()

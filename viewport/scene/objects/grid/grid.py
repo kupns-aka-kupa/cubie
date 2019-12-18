@@ -7,7 +7,7 @@ class Grid:
         self.root = root
         self.camera = self.root.root.camera
         self.pg = self.root.root.pg
-        self.data = root.root.global_settings['PUZZLE']['PRIMITIVES']['GRID']
+        self.data = root.root.global_settings['PUZZLE']['PRIMITIVES']['REGULAR']['GRID']
         self.position = list(pos)
         self.font = self.pg.font.SysFont('Lucida Console', 15)
 

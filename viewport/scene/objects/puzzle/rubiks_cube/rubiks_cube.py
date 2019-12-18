@@ -1,6 +1,6 @@
 from itertools import product as pd, permutations as perm
 
-from viewport.scene.objects.primitives.cube import Cube
+from ...primitives.cube import Cube
 from ..puzzle import Puzzle
 from .color_map import COLOR_MAP
 from .presets import cube_dimension_presets

@@ -1,9 +1,9 @@
 from itertools import product as pd, permutations as perm
 
-from viewport.scene.objects.primitives.cube import Cube
+from ...primitives.parallelepiped import Parallelepiped
 from ..puzzle import Puzzle
-from .color_map import COLOR_MAP
 from .presets import cube_dimension_presets
+from .color_map import COLOR_MAP
 from file import load
 
 
@@ -12,31 +12,28 @@ class MirrorCube(Puzzle):
     __edges = None
     __centers = None
 
-    def __init__(self, root):
+    def __init__(self, root, n):
         color_map_path = root.root.global_settings['PUZZLE']['COLOR_MAPS']['MIRROR_CUBE']
         super().__init__(root, color_map_path, COLOR_MAP)
         self.color_map = load(color_map_path)
-        self.dimension = 3
+        self.dimension = n
         self.gen()
 
     def gen(self):
         super().gen()
-        self.render_queue_init(Cube)
-        self.logic_matrix_init()
+        self.render_queue_init(Parallelepiped)
 
     def struct_init(self):
-
-        # start_coord - y,x,z
-        color_map_keys = [
+        geometry_map_keys = [
             ['YGO_CORNER', 'YRG_CORNER', 'WGO_CORNER', 'WRG_CORNER', 'YOB_CORNER', 'YBR_CORNER', 'WOB_CORNER',
              'WBR_CORNER'],
             ['YB_EDGES', 'WB_EDGES', 'YG_EDGES', 'WG_EDGES', 'GO_EDGES', 'OB_EDGES', 'RG_EDGES', 'BR_EDGES', 'WO_EDGES',
              'WR_EDGES', 'YR_EDGES', 'YO_EDGES'],
             ['B_CENTER', 'G_CENTER', 'W_CENTER', 'Y_CENTER', 'R_CENTER', 'O_CENTER']
         ]
-        self.__corners = [[[], self.color_map[i]] for i in color_map_keys[0]]
-        self.__edges = [[[], self.color_map[i]] for i in color_map_keys[1]]
-        self.__centers = [[[], self.color_map[i]] for i in color_map_keys[2]]
+        self.__corners = [[[], self.color_map[i]] for i in geometry_map_keys[0]]
+        self.__edges = [[[], self.color_map[i]] for i in geometry_map_keys[1]]
+        self.__centers = [[[], self.color_map[i]] for i in geometry_map_keys[2]]
         self._struct = [self.__corners, self.__edges, self.__centers]
 
     def __corners_coordinates_gen(self):
@@ -117,7 +114,8 @@ class MirrorCube(Puzzle):
         n = self.dimension - 1
         even = bool(n % 2)
 
-        if len(cube_dimension_presets) >= n:
+        # if len(cube_dimension_presets) >= n:
+        if False:
             print("Preset found, loading ...")
             return self.default_preset_load(cube_dimension_presets, n - 1)
         else:
@@ -126,16 +124,6 @@ class MirrorCube(Puzzle):
                 return self.part_coordinates_gen(2, 2)
             else:
                 return self.part_coordinates_gen(0, 1)
-
-    def logic_matrix_init(self):
-        n = self.dimension - 1
-        self.mat = [[[] for i in range(self.dimension)] for i in range(self.dimension ** 2)]
-        coords = (0, n, -n)
-        print(list(perm(coords, 3)))
-        coords = (0, 0, -n)
-        print(list(set(perm(coords, 3))))
-        coords = (0, 0, n)
-        print(list(set(perm(coords, 3))))
 
     def logic(self, angles):
 

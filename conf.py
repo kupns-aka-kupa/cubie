@@ -15,7 +15,8 @@ class Config:
     # Geometry data
     __GRID_DATA = CONFIG_DIR + '/geometry/grid.json'
     __CUBE_DATA = CONFIG_DIR + '/geometry/cube.json'
-    __PYRAMIDE_DATA = CONFIG_DIR + '/geometry/pyramide.json'
+    __TETRAHEDRON_DATA = CONFIG_DIR + '/geometry/tetrahedron.json'
+    __POLYHEDRON_DATA_DIR = CONFIG_DIR + '/geometry/polyhedrons/'
 
     # Color data
     __RUBIKS_CUBE_COLOR_MAP = CONFIG_DIR + '/maps/rubiks_cube_color_map.json'
@@ -27,9 +28,12 @@ class Config:
     }
 
     __PRIMITIVE_DATA = {
-        'CUBE': load(__CUBE_DATA),
-        'GRID': load(__GRID_DATA),
-        'PYRAMIDE': load(__PYRAMIDE_DATA)
+        'REGULAR': {
+            'CUBE': load(__CUBE_DATA),
+            'GRID': load(__GRID_DATA),
+            'TETRAHEDRON': load(__TETRAHEDRON_DATA),
+        },
+        'POLYHEDRONS': __POLYHEDRON_DATA_DIR
     }
 
     __VIEWPORT_SETTINGS = {

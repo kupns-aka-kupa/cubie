@@ -4,9 +4,7 @@
 
 Simulator of Puzzles
 
-------
-
-![Cubes](cubes_example.png)
+![Cubes](screenshot.png)
 
 **Install requirement packages** :
 
